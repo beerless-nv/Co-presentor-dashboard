@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Sluit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form novalidate [formGroup]="presentatieForm">
+    <ion-item>
+      <ion-label position="floating">Naam</ion-label>
+      <ion-textarea formControlName="naam"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Beschrijving</ion-label>
+      <ion-textarea formControlName="beschrijving"></ion-textarea>
+    </ion-item>
+    <div class="text-center mt-3">
+      <ion-button color="light" (click)="dismissModal()">Annuleren</ion-button>
+      <ion-button color="success" (click)="savePresentatie()" [disabled]="presentatieForm?.invalid">Opslaan</ion-button>
+    </div>
+  </form>
+</ion-content>

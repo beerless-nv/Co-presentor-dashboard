@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Definities</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionChange)="searchDefinities(searchTerm)" [(ngModel)]="searchTerm"></ion-searchbar>
+
+  <ion-list *ngFor="let definitie of definities">
+    <app-definitie-item [definitie]="definitie"></app-definitie-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addDefinitie()">
+    <ion-fab-button color="light">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

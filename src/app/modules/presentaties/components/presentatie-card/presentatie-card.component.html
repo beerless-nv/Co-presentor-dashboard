@@ -1,0 +1,18 @@
+<div class="presentatie-card">
+  <ion-card>
+    <div class="position-relative">
+      <img [src]="presentatie?.slide?.url" alt="first dia of presentation" routerLink="/presentaties/{{presentatie?.ID}}">
+      <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
+        more_vert
+      </i>
+    </div>
+    <ion-card-header routerLink="/presentaties/{{presentatie?.ID}}">
+      <ion-card-title class="text-truncate">
+        {{presentatie?.naam}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content routerLink="/presentaties/{{presentatie?.ID}}" class="text-truncate">
+      {{presentatie?.beschrijving}}
+    </ion-card-content>
+  </ion-card>
+</div>

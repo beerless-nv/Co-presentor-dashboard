@@ -1,0 +1,18 @@
+#action-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(#fff, 0.75);
+  color: #000;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.presentatie-card {
+  cursor: pointer;
+}

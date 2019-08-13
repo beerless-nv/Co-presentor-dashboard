@@ -1,0 +1,16 @@
+// Import Beerless variables file and bootstrap scss file
+@import "~bootstrap/scss/bootstrap.scss";
+
+#action-icon {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  cursor: pointer;
+}
+
+.definitie-edit-tekst {
+  height: 100%;
+  width: 100%;
+  border: 1px solid $border-color;
+  overflow-y: auto;
+}

@@ -1,0 +1,21 @@
+<ion-item>
+  <div class="d-flex flex-md-row flex-column my-2">
+    <div class="presentatie-image">
+      <img [src]="slide.url" alt="afbeelding slide">
+    </div>
+    <div class="presentatie-text">
+      <div [ngbCollapse]="editText" class="presentatie-text-container" (click)="openEdit()">
+        <div *ngIf="slide.slide.tekst">{{slide.slide.tekst}}</div>
+        <div *ngIf="!slide.slide.tekst" class="text-muted">Klik om tekst toe te voegen.</div>
+      </div>
+      <div [ngbCollapse]="!editText" class="presentatie-text-container">
+        <div class="presentatie-edit-tekst" contenteditable #tekst></div>
+        <div class="action-buttons">
+          <ion-button color="success" (click)="changeSlideTekst(tekst.innerHTML)">Opslaan</ion-button>
+          <ion-button color="light" (click)="editText = false">Annuleren</ion-button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-item>

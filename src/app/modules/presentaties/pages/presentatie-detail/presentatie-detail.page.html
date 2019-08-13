@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{(presentatie | async)?.naam}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let slide of (slides | async)">
+    <app-presentatie-detail-item [slide]="slide"></app-presentatie-detail-item>
+  </ion-list>
+</ion-content>
