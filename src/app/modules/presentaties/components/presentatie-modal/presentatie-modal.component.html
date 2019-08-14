@@ -2,13 +2,13 @@
   <ion-toolbar>
     <ion-title>{{title}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismissModal()">Sluit</ion-button>
+      <ion-button (click)="dismissModal()">Sluiten</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form novalidate [formGroup]="presentatieForm">
+  <form novalidate [formGroup]="presentatieForm" *ngIf="showFirst">
     <ion-item>
       <ion-label position="floating">Naam</ion-label>
       <ion-textarea formControlName="naam"></ion-textarea>
@@ -22,4 +22,26 @@
       <ion-button color="success" (click)="savePresentatie()" [disabled]="presentatieForm?.invalid">Opslaan</ion-button>
     </div>
   </form>
+
+  <form novalidate [formGroup]="presentatieForm" *ngIf="!showFirst">
+    <div class="mt-4 text-center">
+      <div class="d-block">
+        <file-drop dropZoneLabel="Voeg powerpoint toe of " (onFileDrop)="dropped($event)"
+                   (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+                   [showBrowseBtn]="true" browseBtnLabel="Zoek powerpoint" browseBtnClassName="upload-browse-button"
+                   dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content"
+                   accept="pptx">
+        </file-drop>
+      </div>
+
+      <ng-container *ngFor="let item of files; let i=index">
+        <p class="text-center font-weight-bold">{{ item.relativePath }}</p>
+      </ng-container>
+
+      <div class="spinner-border mt-5" role="status" *ngIf="isUploading">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </form>
+
 </ion-content>

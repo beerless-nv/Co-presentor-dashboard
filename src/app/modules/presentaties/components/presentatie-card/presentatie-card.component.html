@@ -1,11 +1,14 @@
 <div class="presentatie-card">
   <ion-card>
-    <div class="position-relative">
-      <img [src]="presentatie?.slide?.url" alt="first dia of presentation" routerLink="/presentaties/{{presentatie?.ID}}">
-      <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
-        more_vert
-      </i>
+    <div class="position-relative img-container d-flex justify-content-center align-items-center" #imgContainer
+         [style.background-image]="'url(' + presentatie?.slide?.url + ')'" routerLink="/presentaties/{{presentatie?.ID}}">
+      <div class="spinner-border" role="status" *ngIf="!presentatie?.slide?.url">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
+    <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
+      more_vert
+    </i>
     <ion-card-header routerLink="/presentaties/{{presentatie?.ID}}">
       <ion-card-title class="text-truncate">
         {{presentatie?.naam}}

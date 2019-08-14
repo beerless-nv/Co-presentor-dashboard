@@ -38,6 +38,21 @@ export class PresentatiesService {
     return this.http.get(this.urlPresentaties + '/' + presentatieId);
   }
 
+  createPresentatie(presentatie) {
+    return this.http.post(this.urlPresentaties, presentatie);
+  }
+
+  updatePresentatie(presentatie, presentatieId) {
+    return this.http.patch(this.urlPresentaties + '/' + presentatieId, presentatie);
+  }
+
+  uploadPresentatie(file, presentatie) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(environment.backend + 'uploadPresentatie/' + presentatie.ID + '/' + presentatie.naam, formData);
+  }
+
   getSlides(presentatieId) {
     const params = new HttpParams()
       .append('filter[where][presentatieID]', presentatieId)

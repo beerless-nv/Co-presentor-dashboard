@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
 #action-icon {
   position: absolute;
   width: 40px;
@@ -11,8 +13,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 .presentatie-card {
   cursor: pointer;
+}
+
+.img-container {
+  background-color: #eee;
+  background-position: center center;
+  -webkit-background-size: cover;
+  background-size: cover;
+
+  .spinner-border {
+    color: #bbb;
+  }
 }

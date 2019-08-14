@@ -28,6 +28,8 @@ export class PresentatieOverzichtPage implements OnInit {
         });
       }
     });
+
+
   }
 
   searchPresentaties() {
