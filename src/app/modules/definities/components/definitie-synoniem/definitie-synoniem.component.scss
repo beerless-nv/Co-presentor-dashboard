@@ -1,0 +1,41 @@
+// Import bootstrap scss file
+@import "~bootstrap/scss/bootstrap.scss";
+
+.row {
+  padding: ($spacer * 0.5) 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+
+  .col:last-child {
+    max-width: 110px;
+    display: flex;
+    justify-content: space-between;
+
+    ion-icon {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      padding: $spacer * 0.5;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.07);
+      }
+    }
+  }
+}
+
+.synoniem-edit {
+  border: 1px solid $border-color;
+  overflow-y: auto;
+}
+
+.synoniem-naam, .synoniem-edit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.placeholder {
+  color: var(--ion-color-medium);
+}

@@ -1,4 +1,24 @@
+// Import bootstrap scss file
+@import "~bootstrap/scss/bootstrap.scss";
+
 ion-button[type=submit] {
   border: none !important;
   box-shadow: none !important;
+}
+
+.synoniemen-crud-table {
+  margin: $spacer * 1;
+
+  .row {
+    padding: ($spacer * 0.5) 0;
+    border-bottom: 1px solid #eee;
+
+    &.header {
+      border-bottom: 2px solid #DEDEDE;
+    }
+
+    .col:last-child {
+      max-width: 110px;
+    }
+  }
 }

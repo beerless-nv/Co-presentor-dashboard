@@ -24,11 +24,6 @@ export class AppComponent {
       title: 'Definities',
       url: '/definities',
       icon: 'list'
-    },
-    {
-      title: 'Personages',
-      url: '/personages',
-      icon: 'people'
     }
   ];
 

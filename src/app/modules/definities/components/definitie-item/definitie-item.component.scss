@@ -1,4 +1,4 @@
-// Import Beerless variables file and bootstrap scss file
+// Import bootstrap scss file
 @import "~bootstrap/scss/bootstrap.scss";
 
 #action-icon {
@@ -13,4 +13,9 @@
   width: 100%;
   border: 1px solid $border-color;
   overflow-y: auto;
+}
+
+.synoniem {
+  margin-top: $spacer * 0.75;
+  //color: #aaa;
 }

@@ -19,7 +19,20 @@
     </ion-item>
     <div class="text-center mt-3">
       <ion-button color="light" (click)="dismissModal()">Annuleren</ion-button>
-      <ion-button color="success" (click)="saveDefinitie()" [disabled]="definitieForm?.invalid">Opslaan</ion-button>
+      <ion-button color="primary" (click)="saveDefinitie()" [disabled]="definitieForm?.invalid">Opslaan</ion-button>
     </div>
   </form>
+
+  <div class="synoniemen-crud-table">
+    <div class="row header">
+      <div class="col font-weight-bold">Synoniem</div>
+      <div class="col font-weight-bold">Actie</div>
+    </div>
+    <ng-container *ngFor="let synoniem of definitie?.synoniemen">
+      <app-definitie-synoniem [synoniem]="synoniem" [definitieId]="definitie?.ID"></app-definitie-synoniem>
+    </ng-container>
+    <app-definitie-synoniem [synoniem]="synoniem" [definitieId]="definitie?.ID" *ngIf="definitie?.synoniemen?.length === 0"></app-definitie-synoniem>
+  </div>
+  <ion-button size="small" class="ml-3" (click)="addRow()"><ion-icon name="add" class="mr-2"></ion-icon> toevoegen</ion-button>
+
 </ion-content>

@@ -11,11 +11,15 @@ import {UpdateDefinitieComponent} from '../update-definitie/update-definitie.com
 export class DefinitieItemComponent implements OnInit {
 
   @Input() definitie;
+  synoniemen;
 
   constructor(private actionSheetController: ActionSheetController, private modalController: ModalController, private definitiesService: DefinitiesService) {
   }
 
   ngOnInit() {
+    if (this.definitie.synoniemen) {
+      this.synoniemen = this.definitie.synoniemen.map(synoniem => synoniem.naam);
+    }
   }
 
   async presentActionSheet(definitie) {

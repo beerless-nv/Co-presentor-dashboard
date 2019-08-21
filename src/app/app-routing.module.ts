@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: './modules/presentaties/presentaties.module#PresentatiesModule'
   },
   {
-    path: 'personages',
-    loadChildren: './modules/personages/personages.module#PersonagesModule'
-  },
-  {
     path: 'definities',
     loadChildren: './modules/definities/definities.module#DefinitiesModule'
   }

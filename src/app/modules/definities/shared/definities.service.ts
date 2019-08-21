@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {SynoniemenService} from '../../../shared/services/synoniemen/synoniemen.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +11,37 @@ export class DefinitiesService {
 
   readonly urlDefinities = environment.backend + 'definities';
   public definities: BehaviorSubject<any> = new BehaviorSubject(null);
+  public definitie: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private synoniemenService: SynoniemenService) {
     this.getDefinities();
   }
 
   getDefinities() {
-    return this.http.get(this.urlDefinities).subscribe(definities => {
-      this.definities.next(definities);
+    return this.http.get(this.urlDefinities).subscribe((definities: Array<any>) => {
+
+      const definitiesArray = [];
+
+      definities.map(definitie => {
+        this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe( (synoniemen: Array<any>) => {
+          console.log(synoniemen);
+          definitie.synoniemen = synoniemen;
+          definitiesArray.push(definitie);
+        });
+      });
+
+      this.definities.next(definitiesArray);
+
+    });
+  }
+
+  getDefinitie(id) {
+    return this.http.get(this.urlDefinities + '/' + id).subscribe((definitie: any) => {
+      this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe((synoniemen: Array<any>) => {
+            definitie.synoniemen = synoniemen;
+            this.definitie.next(definitie);
+          });
     });
   }
 
@@ -29,9 +52,6 @@ export class DefinitiesService {
   }
 
   createDefinitie(definitie) {
-    // temporary fix
-    definitie.categorieID = 1;
-
     return this.http.post(this.urlDefinities, definitie)
       .subscribe(() => {
         this.getDefinities();

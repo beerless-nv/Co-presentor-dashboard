@@ -11,7 +11,7 @@
       <div [ngbCollapse]="!editText" class="presentatie-text-container">
         <div class="presentatie-edit-tekst" contenteditable #tekst></div>
         <div class="action-buttons">
-          <ion-button color="success" (click)="changeSlideTekst(tekst.innerHTML)">Opslaan</ion-button>
+          <ion-button color="primary" (click)="changeSlideTekst(tekst.innerHTML)">Opslaan</ion-button>
           <ion-button color="light" (click)="editText = false">Annuleren</ion-button>
         </div>
       </div>

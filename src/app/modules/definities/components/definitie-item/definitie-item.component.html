@@ -1,10 +1,15 @@
 <ion-item>
   <div class="mb-2 d-block">
     <ion-label>
-      <h5 class="font-weight-bold">{{definitie?.naam}}</h5>
+      <h5 class="font-weight-bold mb-3">{{definitie?.naam}}</h5>
     </ion-label>
     <ion-note>
-      {{definitie?.tekst}}
+      <div class="omschrijving">
+        {{definitie?.tekst}}
+      </div>
+      <div class="synoniem" *ngIf="definitie?.synoniemen">
+        <span class="font-weight-bold text-dark">Synoniemen:</span><span>{{synoniemen?.join(', ')}}</span>
+      </div>
     </ion-note>
     <span style="width: 20px">
       <i id="action-icon" class="material-icons" (click)="presentActionSheet(definitie)">more_vert</i>

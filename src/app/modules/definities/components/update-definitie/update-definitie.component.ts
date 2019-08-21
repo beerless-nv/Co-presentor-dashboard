@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
+import {SynoniemenService} from '../../../../shared/services/synoniemen/synoniemen.service';
 import {DefinitiesService} from '../../shared/definities.service';
 
 @Component({
@@ -14,14 +15,15 @@ export class UpdateDefinitieComponent implements OnInit {
   @Input() definitie: any;
   definitieForm: FormGroup;
 
-  constructor(private modalController: ModalController, private definitiesService: DefinitiesService) {
+  constructor(private modalController: ModalController, private definitiesService: DefinitiesService, private synoniemenService: SynoniemenService) {
   }
 
   ngOnInit() {
     if (!this.definitie) {
       this.definitie = {
         naam: '',
-        tekst: ''
+        tekst: '',
+        synoniemen: []
       };
     }
 
@@ -29,6 +31,8 @@ export class UpdateDefinitieComponent implements OnInit {
       naam: new FormControl(this.definitie.naam),
       tekst: new FormControl(this.definitie.tekst)
     });
+
+    console.log(this.definitie);
   }
 
   dismissModal() {
@@ -45,6 +49,12 @@ export class UpdateDefinitieComponent implements OnInit {
         this.definitiesService.createDefinitie(this.definitieForm.value);
       }
       this.dismissModal();
+    }
+  }
+
+  addRow() {
+    if (this.definitie) {
+      this.definitie.synoniemen.push({naam: '', definitieId: this.definitie.ID, presentatieId: 0});
     }
   }
 
