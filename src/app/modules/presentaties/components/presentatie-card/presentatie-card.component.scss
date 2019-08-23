@@ -1,21 +1,5 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
-#action-icon {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(#fff, 0.75);
-  color: #000;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
 .presentatie-card {
   cursor: pointer;
 }
@@ -25,8 +9,4 @@
   background-position: center center;
   -webkit-background-size: cover;
   background-size: cover;
-
-  .spinner-border {
-    color: #bbb;
-  }
 }

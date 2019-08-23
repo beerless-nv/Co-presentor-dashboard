@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewChil
 import {ActionSheetController, ModalController} from '@ionic/angular';
 import {PresentatiesService} from '../../shared/presentaties.service';
 import ResizeObserver from 'resize-observer-polyfill';
+import {SlidesService} from '../../shared/slides.service';
 import {PresentatieModalComponent} from '../presentatie-modal/presentatie-modal.component';
 
 @Component({
@@ -14,17 +15,17 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
   @Input() presentatie;
   @ViewChild('imgContainer') imgContainer: ElementRef;
 
-  constructor(public actionSheetController: ActionSheetController, private presentatiesService: PresentatiesService, private modalController: ModalController) {
+  constructor(public actionSheetController: ActionSheetController, private presentatiesService: PresentatiesService, private slidesService: SlidesService, private modalController: ModalController) {
   }
 
   ngOnInit() {
-    this.presentatiesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
+    this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
       this.presentatie.slide = slide[0];
     });
 
     const interval = setInterval(() => {
       if (this.presentatie.slide === undefined) {
-        this.presentatiesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
+        this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
           this.presentatie.slide = slide[0];
         });
       } else {

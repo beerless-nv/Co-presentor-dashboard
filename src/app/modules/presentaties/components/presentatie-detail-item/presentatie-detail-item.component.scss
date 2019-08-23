@@ -1,42 +1,92 @@
 // Import bootstrap scss file
 @import "~bootstrap/scss/bootstrap.scss";
 
-.presentatie-image {
-  width: 50%;
+.presentatie {
+  flex: 1;
   margin-right: $spacer * 0.5;
 
   @include media-breakpoint-down(sm) {
     margin-right: 0;
     width: 100%;
   }
+
+  .presentatie-image {
+
+  }
+
+  .video-upload-container {
+    text-align: center;
+
+    ion-button {
+      margin: ($spacer * 1) 0;
+    }
+
+    .video-upload-area {
+      margin-top: $spacer;
+      position: relative;
+
+      .loader {
+        background-color: #fff;
+        border: 1px dashed $border-color;
+        border-radius: 0.5rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+      }
+
+      .upload {
+        height: 100%;
+      }
+    }
+  }
+
+  .presentatie-video-container {
+    .presentatie-video {
+      position: relative;
+
+      video {
+        width: 100%;
+      }
+    }
+  }
 }
 
-.presentatie-text {
-  width: 50%;
+.presentatie-edit-area {
+  flex: 1;
   margin-left: $spacer * 0.5;
-  position: relative;
-
-  .presentatie-text-container {
-    height: 100%;
-  }
 
   @include media-breakpoint-down(sm) {
     margin-left: 0;
     width: 100%;
-    margin-top: $spacer;
+  }
+
+  .presentatie-text {
+    overflow-y: auto;
+
+    .presentatie-text-container {
+      height: 100%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-left: 0;
+      width: 100%;
+      margin-top: $spacer;
+    }
   }
 }
 
 .presentatie-edit-tekst {
-  height: 100%;
   width: 100%;
   border: 1px solid $border-color;
   overflow-y: auto;
 }
 
 .action-buttons {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   text-align: center;
 }

@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <form novalidate [formGroup]="definitieForm">
+  <form novalidate [formGroup]="definitieForm" class="mb-3">
     <ion-item>
       <ion-label position="floating">Naam</ion-label>
       <ion-textarea formControlName="naam"></ion-textarea>
@@ -17,22 +17,16 @@
       <ion-label position="floating">Beschrijving</ion-label>
       <ion-textarea formControlName="tekst"></ion-textarea>
     </ion-item>
-    <div class="text-center mt-3">
-      <ion-button color="light" (click)="dismissModal()">Annuleren</ion-button>
-      <ion-button color="primary" (click)="saveDefinitie()" [disabled]="definitieForm?.invalid">Opslaan</ion-button>
-    </div>
   </form>
 
-  <div class="synoniemen-crud-table">
-    <div class="row header">
-      <div class="col font-weight-bold">Synoniem</div>
-      <div class="col font-weight-bold">Actie</div>
-    </div>
-    <ng-container *ngFor="let synoniem of definitie?.synoniemen">
-      <app-definitie-synoniem [synoniem]="synoniem" [definitieId]="definitie?.ID"></app-definitie-synoniem>
-    </ng-container>
-    <app-definitie-synoniem [synoniem]="synoniem" [definitieId]="definitie?.ID" *ngIf="definitie?.synoniemen?.length === 0"></app-definitie-synoniem>
+  <div class="mt-4">
+    <app-crud-synoniem [synoniemen]="synoniemen"></app-crud-synoniem>
   </div>
-  <ion-button size="small" class="ml-3" (click)="addRow()"><ion-icon name="add" class="mr-2"></ion-icon> toevoegen</ion-button>
-
 </ion-content>
+
+<ion-footer>
+  <div class="text-center d-flex">
+    <div (click)="dismissModal()" class="confirm-button ">Annuleren</div>
+    <div (click)="saveDefinitie()" class="confirm-button primary">Opslaan</div>
+  </div>
+</ion-footer>

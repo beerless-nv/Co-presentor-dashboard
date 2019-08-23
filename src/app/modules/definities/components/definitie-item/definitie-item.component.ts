@@ -36,7 +36,9 @@ export class DefinitieItemComponent implements OnInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.definitiesService.deleteDefinitie(definitie.ID);
+          this.definitiesService.deleteDefinitie(definitie.ID).subscribe(resp => {
+            this.definitiesService.getDefinities();
+          });
         }
       }, {
         text: 'Annuleren',

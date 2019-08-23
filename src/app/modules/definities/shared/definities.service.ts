@@ -25,13 +25,15 @@ export class DefinitiesService {
 
       definities.map(definitie => {
         this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe( (synoniemen: Array<any>) => {
-          console.log(synoniemen);
           definitie.synoniemen = synoniemen;
           definitiesArray.push(definitie);
+          definitiesArray.sort((a, b) => {
+            return a.naam.localeCompare(b.naam);
+          });
         });
       });
 
-      this.definities.next(definitiesArray);
+      return this.definities.next(definitiesArray);
 
     });
   }
@@ -52,23 +54,14 @@ export class DefinitiesService {
   }
 
   createDefinitie(definitie) {
-    return this.http.post(this.urlDefinities, definitie)
-      .subscribe(() => {
-        this.getDefinities();
-      });
+    return this.http.post(this.urlDefinities, definitie);
   }
 
   updateDefinitie(definitie, definitieId) {
-    return this.http.patch(this.urlDefinities + '/' + definitieId, definitie)
-      .subscribe(() => {
-        this.getDefinities();
-      });
+    return this.http.patch(this.urlDefinities + '/' + definitieId, definitie);
   }
 
   deleteDefinitie(definitieId) {
-    return this.http.delete(this.urlDefinities + '/' + definitieId)
-      .subscribe(() => {
-        this.getDefinities();
-      });
+    return this.http.delete(this.urlDefinities + '/' + definitieId);
   }
 }

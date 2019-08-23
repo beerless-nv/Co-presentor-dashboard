@@ -24,15 +24,19 @@ export class SynoniemenService {
     return this.http.get(this.urlSynoniemen, {params});
   }
 
-  createSynoniem(synoniem: any) {
-    return this.http.post(this.urlSynoniemen, synoniem);
-  }
+  updateSynoniem(synoniemen: any, presentatieId, definitieId) {
+    // change object
+    synoniemen.map(synoniem => {
+      delete synoniem.ID;
+      synoniem.presentatieId = presentatieId;
+      synoniem.definitieId = definitieId;
+    });
+    const obj = {
+      synoniemen,
+      presentatieId,
+      definitieId
+    };
 
-  updateSynoniem(synoniem: any, id: number) {
-    return this.http.patch(this.urlSynoniemen + '/' + id, synoniem);
-  }
-
-  deleteSynoniem(id: number) {
-    return this.http.delete(this.urlSynoniemen + '/' + id);
+    return this.http.post(environment.backend + 'updateSynoniemen', obj);
   }
 }

@@ -17,17 +17,13 @@
       <ion-label position="floating">Beschrijving</ion-label>
       <ion-textarea formControlName="beschrijving"></ion-textarea>
     </ion-item>
-    <div class="text-center mt-3">
-      <ion-button color="light" (click)="dismissModal()">Annuleren</ion-button>
-      <ion-button color="primary" (click)="savePresentatie()" [disabled]="presentatieForm?.invalid">Opslaan</ion-button>
-    </div>
+    <app-crud-synoniem [synoniemen]="synoniemen"></app-crud-synoniem>
   </form>
 
-  <form novalidate [formGroup]="presentatieForm" *ngIf="!showFirst">
-    <div class="mt-4 text-center">
+  <div *ngIf="!showFirst">
+    <div class="m-5 mt-4 text-center">
       <div class="d-block">
-        <file-drop dropZoneLabel="Voeg powerpoint toe of " (onFileDrop)="dropped($event)"
-                   (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+        <file-drop dropZoneLabel="Powerpoint neerzetten of " (onFileDrop)="dropped($event)"
                    [showBrowseBtn]="true" browseBtnLabel="Zoek powerpoint" browseBtnClassName="upload-browse-button"
                    dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content"
                    accept="pptx">
@@ -42,6 +38,13 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-  </form>
+  </div>
 
 </ion-content>
+
+<ion-footer>
+  <div class="text-center d-flex">
+    <div (click)="dismissModal()" class="confirm-button ">Annuleren</div>
+    <div (click)="savePresentatie()" class="confirm-button primary">Opslaan</div>
+  </div>
+</ion-footer>

@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DefinitieSynoniemComponent } from './definitie-synoniem.component';
+import { CrudSynoniemComponent } from './definitie-synoniem.component';
 
-describe('DefinitieSynoniemComponent', () => {
-  let component: DefinitieSynoniemComponent;
-  let fixture: ComponentFixture<DefinitieSynoniemComponent>;
+describe('CrudSynoniemComponent', () => {
+  let component: CrudSynoniemComponent;
+  let fixture: ComponentFixture<CrudSynoniemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DefinitieSynoniemComponent ],
+      declarations: [ CrudSynoniemComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DefinitieSynoniemComponent);
+    fixture = TestBed.createComponent(CrudSynoniemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PresentatiesService} from '../../shared/presentaties.service';
+import {SlidesService} from '../../shared/slides.service';
 
 @Component({
   selector: 'app-presentatie-detail',
@@ -13,18 +14,19 @@ export class PresentatieDetailPage implements OnInit {
   presentatie: any;
   editText = false;
 
-  constructor(private presentatiesService: PresentatiesService, private route: ActivatedRoute) { }
+  constructor(private presentatiesService: PresentatiesService, private slidesService: SlidesService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.slidesService.slides.subscribe(slides => this.slides = slides);
+
     this.route.params.subscribe(params => {
-      console.log(params.id);
       this.getSlides(params.id);
       this.getPresentatie(params.id);
     });
   }
 
   getSlides(presentatieId) {
-    this.slides = this.presentatiesService.getSlides(presentatieId);
+    this.slidesService.getSlides(presentatieId);
   }
 
   getPresentatie(presentatieId) {

@@ -1,0 +1,28 @@
+<div class="synoniemen-crud-table">
+  <p class="d-flex justify-content-between align-items-center">
+    Synoniemen
+    <ion-button size="small" class="ml-3" (click)="createSynoniem()"><ion-icon name="add" class="mr-2"></ion-icon> toevoegen</ion-button>
+  </p>
+  <div class="row header">
+    <div class="col small">Synoniem</div>
+    <div class="col small">Actie</div>
+  </div>
+  <ng-container *ngFor="let synoniem of synoniemen; let i = index">
+    <div class="row">
+      <div class="col">
+        <div *ngIf="edit !== i" class="synoniem-naam">
+          <span *ngIf="!synoniem.naam" class="placeholder">Vul in...</span>
+          <span *ngIf="synoniem.naam">{{synoniem?.naam}}</span>
+        </div>
+        <div *ngIf="edit === i" class="d-flex">
+          <div contenteditable class="synoniem-edit" [id]="'synoniemEdit' + i" #value>{{synoniem.naam}}</div>
+          <ion-button size="small" (click)="updateSynoniem(value.innerHTML, i)">Ok</ion-button>
+        </div>
+      </div>
+      <div class="col">
+        <ion-icon name="create" (click)="editSynoniem(i)"></ion-icon>
+        <ion-icon name="trash" (click)="deleteSynoniem(i)"></ion-icon>
+      </div>
+    </div>
+  </ng-container>
+</div>

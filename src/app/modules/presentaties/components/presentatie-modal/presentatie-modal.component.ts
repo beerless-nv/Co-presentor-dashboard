@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
+import {SynoniemenService} from '../../../../shared/services/synoniemen/synoniemen.service';
 import {PresentatiesService} from '../../shared/presentaties.service';
 import {UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry} from 'ngx-file-drop';
 
@@ -13,12 +14,13 @@ export class PresentatieModalComponent implements OnInit {
 
   @Input() title: string;
   @Input() presentatie: any;
+  synoniemen = [];
   presentatieForm: FormGroup;
   showFirst = true;
   files: UploadFile[] = [];
   isUploading = false;
 
-  constructor(private modalController: ModalController, private presentatiesService: PresentatiesService) {
+  constructor(private modalController: ModalController, private presentatiesService: PresentatiesService, private synoniemenService: SynoniemenService) {
   }
 
   ngOnInit() {
@@ -27,6 +29,10 @@ export class PresentatieModalComponent implements OnInit {
         naam: '',
         beschrijving: ''
       };
+    }
+
+    if (this.presentatie.synoniemen) {
+      this.synoniemen = this.presentatie.synoniemen;
     }
 
     this.presentatieForm = new FormGroup({
@@ -45,11 +51,13 @@ export class PresentatieModalComponent implements OnInit {
     if (this.presentatieForm.valid) {
       if (this.presentatie.ID) {
         this.presentatiesService.updatePresentatie(this.presentatieForm.value, this.presentatie.ID).subscribe(() => {
+          this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
           this.presentatiesService.getPresentaties();
         });
       } else {
         this.presentatiesService.createPresentatie(this.presentatieForm.value).subscribe(presentatie => {
           this.presentatie = presentatie;
+          this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
           this.presentatiesService.getPresentaties();
         });
       }
@@ -65,10 +73,6 @@ export class PresentatieModalComponent implements OnInit {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-
           this.isUploading = true;
 
           this.presentatiesService.uploadPresentatie(file, this.presentatie).subscribe(resp => {
@@ -79,16 +83,7 @@ export class PresentatieModalComponent implements OnInit {
       } else {
         // It was a directory (empty directories are added, otherwise only files)
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
       }
     }
-  }
-
-  public fileOver(event) {
-    console.log(event);
-  }
-
-  public fileLeave(event) {
-    console.log(event);
   }
 }

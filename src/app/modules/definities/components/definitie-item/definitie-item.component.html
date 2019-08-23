@@ -8,7 +8,7 @@
         {{definitie?.tekst}}
       </div>
       <div class="synoniem" *ngIf="definitie?.synoniemen">
-        <span class="font-weight-bold text-dark">Synoniemen:</span><span>{{synoniemen?.join(', ')}}</span>
+        <span class="font-weight-bold text-dark" *ngIf="synoniemen.length > 0">Synoniemen:</span><span>{{synoniemen?.join(', ')}}</span>
       </div>
     </ion-note>
     <span style="width: 20px">

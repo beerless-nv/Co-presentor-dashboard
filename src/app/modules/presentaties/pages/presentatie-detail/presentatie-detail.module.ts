@@ -5,6 +5,7 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FileDropModule} from 'ngx-file-drop';
 import {PresentatieDetailItemComponent} from '../../components/presentatie-detail-item/presentatie-detail-item.component';
 
 import {PresentatieDetailPage} from './presentatie-detail.page';
@@ -22,7 +23,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    NgbModule
+    NgbModule,
+    FileDropModule
   ],
   declarations: [
     PresentatieDetailPage,

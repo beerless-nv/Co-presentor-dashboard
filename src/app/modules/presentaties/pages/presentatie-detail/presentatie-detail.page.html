@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngFor="let slide of (slides | async)">
+  <ion-list *ngFor="let slide of slides">
     <app-presentatie-detail-item [slide]="slide"></app-presentatie-detail-item>
   </ion-list>
 </ion-content>

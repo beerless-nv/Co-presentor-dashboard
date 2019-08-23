@@ -5,8 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
+import {CrudSynoniemModule} from '../../../../shared/components/crud-synoniem/crud-synoniem.module';
 import {DefinitieItemComponent} from '../../components/definitie-item/definitie-item.component';
-import {DefinitieSynoniemComponent} from '../../components/definitie-synoniem/definitie-synoniem.component';
+import {CrudSynoniemComponent} from '../../../../shared/components/crud-synoniem/crud-synoniem.component';
 import {UpdateDefinitieComponent} from '../../components/update-definitie/update-definitie.component';
 
 import { DefinitieOverzichtPage } from './definitie-overzicht.page';
@@ -25,13 +26,13 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    CrudSynoniemModule
   ],
   declarations: [
     DefinitieOverzichtPage,
     DefinitieItemComponent,
     UpdateDefinitieComponent,
-    DefinitieSynoniemComponent
   ],
   entryComponents: [
     UpdateDefinitieComponent

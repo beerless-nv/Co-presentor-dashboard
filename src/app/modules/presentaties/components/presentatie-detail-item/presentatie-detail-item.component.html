@@ -1,21 +1,58 @@
 <ion-item>
   <div class="d-flex flex-md-row flex-column my-2">
-    <div class="presentatie-image">
-      <img [src]="slide.url" alt="afbeelding slide">
-    </div>
-    <div class="presentatie-text">
-      <div [ngbCollapse]="editText" class="presentatie-text-container" (click)="openEdit()">
-        <div *ngIf="slide.slide.tekst">{{slide.slide.tekst}}</div>
-        <div *ngIf="!slide.slide.tekst" class="text-muted">Klik om tekst toe te voegen.</div>
+    <div class="presentatie">
+      <div class="presentatie-image">
+        <img [src]="slide.url" alt="afbeelding slide">
       </div>
-      <div [ngbCollapse]="!editText" class="presentatie-text-container">
-        <div class="presentatie-edit-tekst" contenteditable #tekst></div>
-        <div class="action-buttons">
-          <ion-button color="primary" (click)="changeSlideTekst(tekst.innerHTML)">Opslaan</ion-button>
-          <ion-button color="light" (click)="editText = false">Annuleren</ion-button>
+      <div *ngIf="!slide.video || !showVideo" class="video-upload-container">
+        <ion-button color="light" (click)="uploadVideo = !uploadVideo" *ngIf="!uploadVideo">Upload video</ion-button>
+        <div class="video-upload-area" *ngIf="uploadVideo">
+          <div class="loader" *ngIf="isUploading">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div class="upload">
+            <file-drop dropZoneLabel="Video neerzetten of " (onFileDrop)="dropped($event)"
+                       [showBrowseBtn]="true" browseBtnLabel="Zoek video" browseBtnClassName="upload-browse-button"
+                       dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content">
+            </file-drop>
+          </div>
+        </div>
+      </div>
+      <div class="presentatie-video-container mt-3" *ngIf="slide.video && showVideo">
+        <div class="font-weight-bold mb-3 d-flex align-items-center justify-content-between flex-wrap">
+          <div>Extra video</div>
+          <!--<div>-->
+            <!--<ion-button>Update video</ion-button>-->
+            <!--<ion-button color="danger">Verwijder video</ion-button>-->
+          <!--</div>-->
+        </div>
+        <div class="presentatie-video">
+          <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
+            more_vert
+          </i>
+          <video controls>
+            <source [src]="slide.video">
+            Your browser does not support HTML5 video.
+          </video>
         </div>
       </div>
     </div>
-
+    <div class="presentatie-edit-area">
+      <div class="presentatie-text">
+        <div *ngIf="!editText" class="presentatie-text-container" (click)="openEdit()">
+          <div *ngIf="slide.slide.tekst">{{slide.slide.tekst}}</div>
+          <div *ngIf="!slide.slide.tekst" class="text-muted">Klik om tekst toe te voegen.</div>
+        </div>
+        <div *ngIf="editText" class="presentatie-text-container">
+          <div class="presentatie-edit-tekst" contenteditable #tekst>{{slide.slide.tekst}}</div>
+          <div class="action-buttons">
+            <ion-button color="light" (click)="editText = false">Annuleren</ion-button>
+            <ion-button color="primary" (click)="changeSlideTekst(tekst)">Opslaan</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-item>

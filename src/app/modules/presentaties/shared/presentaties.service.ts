@@ -2,6 +2,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {SynoniemenService} from '../../../shared/services/synoniemen/synoniemen.service';
+import {SlidesService} from './slides.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +13,29 @@ export class PresentatiesService {
   readonly urlPresentaties = environment.backend + 'presentaties';
   public presentaties: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private synoniemenService: SynoniemenService, private slidesService: SlidesService) {
     this.getPresentaties();
   }
 
   getPresentaties() {
-    return this.http.get(this.urlPresentaties).subscribe(presentaties => {
-      this.presentaties.next(presentaties);
+    return this.http.get(this.urlPresentaties).subscribe((presentaties: Array<any>) => {
+      const presentatiesArray = [];
+
+      presentaties.map(presentatie => {
+        this.slidesService.getSlide(1, presentatie.ID).subscribe(slide => {
+          presentatie.slide = slide[0];
+        });
+
+        this.synoniemenService.getSynoniemenByFK(presentatie.ID, 0).subscribe( (synoniemen: Array<any>) => {
+          presentatie.synoniemen = synoniemen;
+          presentatiesArray.push(presentatie);
+          presentatiesArray.sort((a, b) => {
+            return a.ID - b.ID;
+          });
+        });
+      });
+
+      return this.presentaties.next(presentatiesArray);
     });
   }
 
@@ -52,25 +70,4 @@ export class PresentatiesService {
 
     return this.http.post(environment.backend + 'uploadPresentatie/' + presentatie.ID + '/' + presentatie.naam, formData);
   }
-
-  getSlides(presentatieId) {
-    const params = new HttpParams()
-      .append('filter[where][presentatieID]', presentatieId)
-      .append('filter[order]', 'volgnummer');
-
-    return this.http.get(environment.backend + 'slides', {params});
-  }
-
-  getSlide(volgnummer, presentatieId) {
-    const params = new HttpParams()
-      .append('filter[where][presentatieID]', presentatieId)
-      .append('filter[where][volgnummer]', volgnummer);
-
-    return this.http.get(environment.backend + 'slides', {params});
-  }
-
-  updateSlide(slide, slideId) {
-    return this.http.patch(environment.backend + '/slides/' + slideId, slide);
-  }
-
 }
