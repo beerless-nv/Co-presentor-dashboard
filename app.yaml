@@ -1,0 +1,17 @@
+runtime: python27
+service: dashboard
+api_version: 1
+threadsafe: true
+
+skip_files:
+  - ^(?!www)  # Skip any files not in the dist folder
+
+handlers:
+  - url: /(.*\.(gif|png|jpg|svg|css|js)(|\.map))$
+    static_files: www/\1
+    upload: www/(.*)(|\.map)
+
+  - url: /(.*)
+    static_files: www/index.html
+    upload: www/index.html
+

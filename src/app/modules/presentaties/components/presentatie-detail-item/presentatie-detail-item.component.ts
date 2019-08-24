@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActionSheetController} from '@ionic/angular';
+import {ActionSheetController, AlertController} from '@ionic/angular';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
 import {SlidesService} from '../../shared/slides.service';
 
@@ -17,7 +17,7 @@ export class PresentatieDetailItemComponent implements OnInit {
   isUploading = false;
   showVideo = false;
 
-  constructor(private slidesService: SlidesService, private actionSheetController: ActionSheetController) {
+  constructor(private slidesService: SlidesService, private actionSheetController: ActionSheetController, private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -77,9 +77,7 @@ export class PresentatieDetailItemComponent implements OnInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.slidesService.deleteVideo(this.slide.slide.ID).subscribe(resp => {
-            this.showVideo = false;
-          });
+          this.deleteVideoConfirm(this.slide.slide.ID);
         }
       }, {
         text: 'Annuleren',
@@ -90,4 +88,31 @@ export class PresentatieDetailItemComponent implements OnInit {
       }]
     });
     await actionSheet.present();
-  }}
+  }
+
+  async deleteVideoConfirm(id) {
+    const alert = await this.alertController.create({
+      header: 'Verwijderen',
+      message: 'Weet je zeker dat je deze video wilt <strong>verwijderen</strong>?',
+      buttons: [
+        {
+          text: 'Annuleren',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Verwijderen',
+          handler: () => {
+            this.slidesService.deleteVideo(id).subscribe(resp => {
+              this.showVideo = false;
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+}

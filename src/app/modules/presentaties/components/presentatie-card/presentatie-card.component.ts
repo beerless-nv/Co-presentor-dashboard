@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {ActionSheetController, ModalController} from '@ionic/angular';
+import {ActionSheetController, AlertController, ModalController} from '@ionic/angular';
 import {PresentatiesService} from '../../shared/presentaties.service';
 import ResizeObserver from 'resize-observer-polyfill';
 import {SlidesService} from '../../shared/slides.service';
@@ -15,7 +15,7 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
   @Input() presentatie;
   @ViewChild('imgContainer') imgContainer: ElementRef;
 
-  constructor(public actionSheetController: ActionSheetController, private presentatiesService: PresentatiesService, private slidesService: SlidesService, private modalController: ModalController) {
+  constructor(public actionSheetController: ActionSheetController, private presentatiesService: PresentatiesService, private slidesService: SlidesService, private modalController: ModalController, private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.presentatiesService.deletePresentatie(presentatie.ID);
+          this.deletePresentatieConfirm(presentatie.ID);
         }
       }, {
         text: 'Annuleren',
@@ -73,6 +73,30 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
     });
 
     ro.observe(this.imgContainer.nativeElement);
+  }
+
+  async deletePresentatieConfirm(id) {
+    const alert = await this.alertController.create({
+      header: 'Verwijderen',
+      message: 'Weet je zeker dat je deze presentatie wilt <strong>verwijderen</strong>?',
+      buttons: [
+        {
+          text: 'Annuleren',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Verwijderen',
+          handler: () => {
+            this.presentatiesService.deletePresentatie(id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async presentUpdatePresentatieModal(title, presentatie) {

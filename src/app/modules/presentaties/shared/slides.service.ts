@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import parseTextToSSML from '../../../shared/scripts/parseTextToSSML';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class SlidesService {
   }
 
   updateSlide(slide, slideId) {
+    console.log(parseTextToSSML(slide.tekst));
     return this.http.patch(this.urlSlides + '/' + slideId, slide);
   }
 

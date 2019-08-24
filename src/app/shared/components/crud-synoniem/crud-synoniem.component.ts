@@ -48,7 +48,7 @@ export class CrudSynoniemComponent implements OnInit {
   async presentAlertConfirm(id) {
     const alert = await this.alertController.create({
       header: 'Verwijderen',
-      message: 'Weet je zeker dat je dit synoniem wil <strong>verwijderen</strong>?',
+      message: 'Weet je zeker dat je dit synoniem wilt <strong>verwijderen</strong>?',
       buttons: [
         {
           text: 'Annuleren',

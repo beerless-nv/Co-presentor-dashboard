@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActionSheetController, ModalController} from '@ionic/angular';
+import {ActionSheetController, AlertController, ModalController} from '@ionic/angular';
 import {DefinitiesService} from '../../shared/definities.service';
 import {UpdateDefinitieComponent} from '../update-definitie/update-definitie.component';
 
@@ -13,7 +13,7 @@ export class DefinitieItemComponent implements OnInit {
   @Input() definitie;
   synoniemen;
 
-  constructor(private actionSheetController: ActionSheetController, private modalController: ModalController, private definitiesService: DefinitiesService) {
+  constructor(private actionSheetController: ActionSheetController, private alertController: AlertController, private modalController: ModalController, private definitiesService: DefinitiesService) {
   }
 
   ngOnInit() {
@@ -36,9 +36,7 @@ export class DefinitieItemComponent implements OnInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.definitiesService.deleteDefinitie(definitie.ID).subscribe(resp => {
-            this.definitiesService.getDefinities();
-          });
+          this.deleteDefinitieConfirm(definitie.ID);
         }
       }, {
         text: 'Annuleren',
@@ -49,6 +47,32 @@ export class DefinitieItemComponent implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+
+  async deleteDefinitieConfirm(id) {
+    const alert = await this.alertController.create({
+      header: 'Verwijderen',
+      message: 'Weet je zeker dat je deze definitie wilt <strong>verwijderen</strong>?',
+      buttons: [
+        {
+          text: 'Annuleren',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Verwijderen',
+          handler: () => {
+            this.definitiesService.deleteDefinitie(id).subscribe(resp => {
+              this.definitiesService.getDefinities();
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async presentUpdateDefinitieModal(title, definitie) {

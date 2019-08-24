@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar (ionChange)="searchDefinities(searchTerm)" [(ngModel)]="searchTerm"></ion-searchbar>
+  <ion-searchbar (ionChange)="searchDefinities()" [(ngModel)]="searchTerm"></ion-searchbar>
 
   <ion-list *ngFor="let definitie of definities">
     <app-definitie-item [definitie]="definitie"></app-definitie-item>

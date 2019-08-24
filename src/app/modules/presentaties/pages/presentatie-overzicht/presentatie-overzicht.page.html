@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar (ionChange)="searchPresentaties(searchTerm)" [(ngModel)]="searchTerm"></ion-searchbar>
+  <ion-searchbar (ionChange)="searchPresentaties()" [(ngModel)]="searchTerm"></ion-searchbar>
 
   <ng-container *ngFor="let presentatie of presentaties; let i = index">
     <div class="d-sm-block d-none">

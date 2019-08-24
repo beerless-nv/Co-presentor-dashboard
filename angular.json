@@ -42,7 +42,9 @@
                 "input": "src/app/app.scss"
               }
             ],
-            "scripts": [],
+            "scripts": [
+              "src/app/shared/scripts/parseTextToSSML.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
