@@ -18,6 +18,14 @@ const routes: Routes = [
   {
     path: 'definities',
     loadChildren: './modules/definities/definities.module#DefinitiesModule'
+  },
+  {
+    path: 'sign-in',
+    loadChildren: './modules/sign-in/sign-in.module#SignInModule'
+  },
+  {
+    path: 'sign-up',
+    loadChildren: './modules/sign-up/sign-up.module#SignUpModule'
   }
 ];
 

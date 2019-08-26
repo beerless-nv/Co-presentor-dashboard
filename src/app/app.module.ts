@@ -6,6 +6,7 @@ import {RouteReuseStrategy} from '@angular/router';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
+import {CookieService} from 'ngx-cookie-service';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -26,7 +27,8 @@ import {ErrorInterceptor} from './core/interceptors/error-interceptor';
     StatusBar,
     SplashScreen,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

@@ -22,20 +22,27 @@
 
   <div *ngIf="!showFirst">
     <div class="m-5 mt-4 text-center">
+
       <div class="d-block">
-        <file-drop dropZoneLabel="Powerpoint neerzetten of " (onFileDrop)="dropped($event)"
-                   [showBrowseBtn]="true" browseBtnLabel="Zoek powerpoint" browseBtnClassName="upload-browse-button"
-                   dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content"
-                   accept="pptx">
-        </file-drop>
-      </div>
-
-      <ng-container *ngFor="let item of files; let i=index">
-        <p class="text-center font-weight-bold">{{ item.relativePath }}</p>
-      </ng-container>
-
-      <div class="spinner-border mt-5" role="status" *ngIf="isUploading">
-        <span class="sr-only">Loading...</span>
+        <div class="ppt-upload-area">
+          <div class="loader" *ngIf="isUploading">
+            <div class="w-100">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let item of files; let i=index">
+              <p class="text-center font-weight-bold mt-3">{{ item.relativePath }}</p>
+            </ng-container>
+          </div>
+          <div class="upload">
+            <file-drop dropZoneLabel="Powerpoint neerzetten of " (onFileDrop)="dropped($event)"
+                       [showBrowseBtn]="true" browseBtnLabel="Zoek powerpoint" browseBtnClassName="upload-browse-button"
+                       dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content"
+                       accept="pptx">
+            </file-drop>
+          </div>
+        </div>
       </div>
     </div>
   </div>

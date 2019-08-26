@@ -8,9 +8,14 @@
         <ion-button color="light" (click)="uploadVideo = !uploadVideo" *ngIf="!uploadVideo">Upload video</ion-button>
         <div class="video-upload-area" *ngIf="uploadVideo">
           <div class="loader" *ngIf="isUploading">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+            <div class="w-100">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
+            <ng-container *ngFor="let item of files; let i=index">
+              <p class="text-center font-weight-bold mt-3">{{ item.relativePath }}</p>
+            </ng-container>
           </div>
           <div class="upload">
             <file-drop dropZoneLabel="Video neerzetten of " (onFileDrop)="dropped($event)"
@@ -24,8 +29,8 @@
         <div class="font-weight-bold mb-3 d-flex align-items-center justify-content-between flex-wrap">
           <div>Extra video</div>
           <!--<div>-->
-            <!--<ion-button>Update video</ion-button>-->
-            <!--<ion-button color="danger">Verwijder video</ion-button>-->
+          <!--<ion-button>Update video</ion-button>-->
+          <!--<ion-button color="danger">Verwijder video</ion-button>-->
           <!--</div>-->
         </div>
         <div class="presentatie-video">

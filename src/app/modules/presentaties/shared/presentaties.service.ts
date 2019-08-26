@@ -26,7 +26,7 @@ export class PresentatiesService {
           presentatie.slide = slide[0];
         });
 
-        this.synoniemenService.getSynoniemenByFK(presentatie.ID, 0).subscribe( (synoniemen: Array<any>) => {
+        this.synoniemenService.getSynoniemenByFK(presentatie.ID, 0).subscribe((synoniemen: Array<any>) => {
           presentatie.synoniemen = synoniemen;
           presentatiesArray.push(presentatie);
           presentatiesArray.sort((a, b) => {

@@ -34,7 +34,7 @@ export class SlidesService {
   }
 
   updateSlide(slide, slideId) {
-    console.log(parseTextToSSML(slide.tekst));
+    slide.ssml = parseTextToSSML(slide.tekst);
     return this.http.patch(this.urlSlides + '/' + slideId, slide);
   }
 
