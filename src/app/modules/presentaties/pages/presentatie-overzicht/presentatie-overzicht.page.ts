@@ -21,8 +21,6 @@ export class PresentatieOverzichtPage implements OnInit {
     this.presentatiesService.presentaties.subscribe((presentaties: any) => {
         this.presentaties = presentaties;
     });
-
-
   }
 
   searchPresentaties() {

@@ -53,8 +53,10 @@ export class UpdateDefinitieComponent implements OnInit {
             this.definitiesService.getDefinities();
           });
       } else {
-        this.definitiesService.createDefinitie(this.definitieForm.value).subscribe(resp => {
-          this.synoniemenService.updateSynoniem(this.synoniemen, 0, this.definitie.ID).subscribe();
+        this.definitiesService.createDefinitie(this.definitieForm.value).subscribe((resp: any) => {
+          if (this.synoniemen[0].naam !== '') {
+            this.synoniemenService.updateSynoniem(this.synoniemen, 0, resp.ID).subscribe();
+          }
           this.definitiesService.getDefinities();
         });
       }

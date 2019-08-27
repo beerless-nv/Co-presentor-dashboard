@@ -1,8 +1,11 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
+import {ErrorSuccessMessagesService} from '../../../shared/services/error-success-messages/error-success-messages.service';
 import {SynoniemenService} from '../../../shared/services/synoniemen/synoniemen.service';
+import parseTextToSSML from '../../../shared/scripts/parseTextToSSML';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,7 @@ export class DefinitiesService {
   public definitie: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
-  constructor(public http: HttpClient, private synoniemenService: SynoniemenService) {
+  constructor(public http: HttpClient, private synoniemenService: SynoniemenService, private errorSuccessMessagesService: ErrorSuccessMessagesService) {
     this.getDefinities();
   }
 
@@ -54,14 +57,31 @@ export class DefinitiesService {
   }
 
   createDefinitie(definitie) {
-    return this.http.post(this.urlDefinities, definitie);
+    definitie.ssml = parseTextToSSML(definitie.tekst);
+    return this.http.post(this.urlDefinities, definitie)
+      .pipe(
+        tap(resp => {
+          this.errorSuccessMessagesService.successMessage$.next('Definitie is aangemaakt.');
+        })
+      );
   }
 
   updateDefinitie(definitie, definitieId) {
-    return this.http.patch(this.urlDefinities + '/' + definitieId, definitie);
+    definitie.ssml = parseTextToSSML(definitie.tekst);
+    return this.http.patch(this.urlDefinities + '/' + definitieId, definitie)
+      .pipe(
+        tap(resp => {
+          this.errorSuccessMessagesService.successMessage$.next('Definitie is aangepast.');
+        })
+      );
   }
 
   deleteDefinitie(definitieId) {
-    return this.http.delete(this.urlDefinities + '/' + definitieId);
+    return this.http.delete(this.urlDefinities + '/' + definitieId)
+      .pipe(
+        tap(resp => {
+          this.errorSuccessMessagesService.successMessage$.next('Definitie is verwijderd.');
+        })
+      );
   }
 }

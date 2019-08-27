@@ -50,7 +50,7 @@ export class PresentatieModalComponent implements OnInit {
   savePresentatie() {
     if (this.presentatieForm.valid) {
       if (this.presentatie.ID) {
-        this.presentatiesService.updatePresentatie(this.presentatieForm.value, this.presentatie.ID).subscribe(() => {
+        this.presentatiesService.updatePresentatie(this.presentatieForm.value, this.presentatie.ID).subscribe(resp => {
           this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
           this.presentatiesService.getPresentaties();
         });

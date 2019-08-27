@@ -14,6 +14,7 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
 
   @Input() presentatie;
   @ViewChild('imgContainer') imgContainer: ElementRef;
+  interval = null;
 
   constructor(public actionSheetController: ActionSheetController, private presentatiesService: PresentatiesService, private slidesService: SlidesService, private modalController: ModalController, private alertController: AlertController) {
   }
@@ -23,15 +24,17 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
       this.presentatie.slide = slide[0];
     });
 
-    const interval = setInterval(() => {
-      if (this.presentatie.slide === undefined) {
-        this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
-          this.presentatie.slide = slide[0];
-        });
-      } else {
-        clearInterval(interval);
-      }
-    }, 5000);
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        if (this.presentatie.slide === undefined) {
+          this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
+            this.presentatie.slide = slide[0];
+          });
+        } else {
+          clearInterval(this.interval);
+        }
+      }, 5000);
+    }
   }
 
   ngAfterViewInit(): void {

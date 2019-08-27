@@ -1,23 +1,23 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './core/authentication/auth-guard.service';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    loadChildren: './modules/home/home.module#HomeModule'
+    redirectTo: 'presentaties',
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
   {
     path: 'presentaties',
-    loadChildren: './modules/presentaties/presentaties.module#PresentatiesModule'
+    loadChildren: './modules/presentaties/presentaties.module#PresentatiesModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'definities',
-    loadChildren: './modules/definities/definities.module#DefinitiesModule'
+    loadChildren: './modules/definities/definities.module#DefinitiesModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'sign-in',

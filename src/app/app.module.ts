@@ -11,6 +11,8 @@ import {CookieService} from 'ngx-cookie-service';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AuthGuard} from './core/authentication/auth-guard.service';
+import {AuthenticationService} from './core/authentication/authentication.service';
 import {ErrorInterceptor} from './core/interceptors/error-interceptor';
 
 @NgModule({
@@ -26,6 +28,8 @@ import {ErrorInterceptor} from './core/interceptors/error-interceptor';
   providers: [
     StatusBar,
     SplashScreen,
+    AuthGuard,
+    AuthenticationService,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     CookieService

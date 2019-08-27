@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backend: 'https://co-presenter-247006.appspot.com/'
+  backend: 'http://localhost:3000/'
 };
 
 /*
