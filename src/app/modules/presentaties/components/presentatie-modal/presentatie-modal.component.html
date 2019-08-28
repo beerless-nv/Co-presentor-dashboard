@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <form novalidate [formGroup]="presentatieForm" *ngIf="showFirst">
+  <form novalidate [formGroup]="presentatieForm">
     <ion-item>
       <ion-label position="floating">Naam</ion-label>
       <ion-textarea formControlName="naam"></ion-textarea>
@@ -17,22 +17,18 @@
       <ion-label position="floating">Beschrijving</ion-label>
       <ion-textarea formControlName="beschrijving"></ion-textarea>
     </ion-item>
-    <app-crud-synoniem [synoniemen]="synoniemen"></app-crud-synoniem>
-  </form>
-
-  <div *ngIf="!showFirst">
-    <div class="m-5 mt-4 text-center">
-
+    <div class="m-3 text-center">
+      <p class="text-left">Presentatie uploaden</p>
       <div class="d-block">
         <div class="ppt-upload-area">
-          <div class="loader" *ngIf="isUploading">
-            <div class="w-100">
+          <div class="loader" *ngIf="fileLoaded">
+            <div class="w-100 mb-3" *ngIf="isUploading">
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
             <ng-container *ngFor="let item of files; let i=index">
-              <p class="text-center font-weight-bold mt-3">{{ item.relativePath }}</p>
+              <p class="text-center font-weight-bold mb-0">{{ item.relativePath }}</p>
             </ng-container>
           </div>
           <div class="upload">
@@ -45,8 +41,8 @@
         </div>
       </div>
     </div>
-  </div>
-
+    <app-crud-synoniem [synoniemen]="synoniemen"></app-crud-synoniem>
+  </form>
 </ion-content>
 
 <ion-footer>

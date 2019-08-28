@@ -16,9 +16,9 @@ export class PresentatieModalComponent implements OnInit {
   @Input() presentatie: any;
   synoniemen = [];
   presentatieForm: FormGroup;
-  showFirst = true;
   files: UploadFile[] = [];
   isUploading = false;
+  fileLoaded = false;
 
   constructor(private modalController: ModalController, private presentatiesService: PresentatiesService, private synoniemenService: SynoniemenService) {
   }
@@ -50,40 +50,55 @@ export class PresentatieModalComponent implements OnInit {
   savePresentatie() {
     if (this.presentatieForm.valid) {
       if (this.presentatie.ID) {
-        this.presentatiesService.updatePresentatie(this.presentatieForm.value, this.presentatie.ID).subscribe(resp => {
-          this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
-          this.presentatiesService.getPresentaties();
+        this.presentatiesService.updatePresentatie(this.presentatieForm.value, this.presentatie.ID).subscribe(presentatie => {
+          this.afterSavePresentatie();
         });
       } else {
         this.presentatiesService.createPresentatie(this.presentatieForm.value).subscribe(presentatie => {
           this.presentatie = presentatie;
-          this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
-          this.presentatiesService.getPresentaties();
+          this.afterSavePresentatie();
         });
       }
-      this.showFirst = false;
     }
+  }
+
+  afterSavePresentatie() {
+    this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
+    if (this.files.length > 0) {
+      this.uploadPresentation().then(resp => {
+        this.dismissModal();
+      });
+    } else {
+      this.dismissModal();
+    }
+    this.presentatiesService.getPresentaties();
   }
 
   public dropped(event: UploadEvent) {
     this.files = event.files;
-    for (const droppedFile of event.files) {
+    this.fileLoaded = true;
+  }
 
-      // Is it a file?
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-          this.isUploading = true;
+  uploadPresentation(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      for (const droppedFile of this.files) {
 
-          this.presentatiesService.uploadPresentatie(file, this.presentatie).subscribe(resp => {
-            this.dismissModal();
-            this.presentatiesService.getPresentaties();
+        // Is it a file?
+        if (droppedFile.fileEntry.isFile) {
+          const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+          fileEntry.file((file: File) => {
+            this.isUploading = true;
+
+            this.presentatiesService.uploadPresentatie(file, this.presentatie).subscribe(resp => {
+              this.presentatiesService.getPresentaties();
+              resolve('upload done');
+            });
           });
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        } else {
+          // It was a directory (empty directories are added, otherwise only files)
+          const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        }
       }
-    }
+    });
   }
 }

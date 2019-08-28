@@ -1,10 +1,13 @@
 <div class="presentatie-card">
   <ion-card>
-    <div class="position-relative img-container d-flex justify-content-center align-items-center" #imgContainer
+    <div class="position-relative img-container d-flex justify-content-center align-items-center flex-column" #imgContainer
          [style.background-image]="'url(' + presentatie?.slide?.url + ')'" routerLink="/presentaties/{{presentatie?.ID}}">
-      <div class="spinner-border" role="status" *ngIf="!presentatie?.slide?.url">
-        <span class="sr-only">Loading...</span>
-      </div>
+      <ng-container *ngIf="!presentatie?.slide?.url">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p class="text-center font-weight-bold mt-3 mb-0">Presentatie converteren...</p>
+      </ng-container>
     </div>
     <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
       more_vert

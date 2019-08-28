@@ -45,9 +45,13 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.cookieService.delete('access_token');
               this.authenticationService.isLoggedIn();
             } else if (err.error.error.statusCode === 422) {
-              const details = err.error.error.details[0];
-              const msg = details.path.substr(1) + ' ' + details.message;
-              this.presentAlert(msg);
+              if (err.error.error.details) {
+                const details = err.error.error.details[0];
+                const msg = details.path.substr(1) + ' ' + details.message;
+                this.presentAlert(msg);
+              } else {
+                this.presentAlert(err.error.error.message);
+              }
             } else {
               this.presentAlert(err.error.error.message);
             }
