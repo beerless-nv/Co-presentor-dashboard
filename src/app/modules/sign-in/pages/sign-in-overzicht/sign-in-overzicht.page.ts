@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, DoCheck, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
 import {CookieService} from 'ngx-cookie-service';
+import {AuthenticationService} from '../../../../core/authentication/authentication.service';
 import {SignInService} from '../../shared/sign-in.service';
 
 @Component({
@@ -15,15 +16,22 @@ export class SignInOverzichtPage implements OnInit {
   loginForm: FormGroup;
   passwordVisible = false;
 
-  constructor(public menuController: MenuController, private signInService: SignInService, private router: Router, private cookieService: CookieService) {
-    this.menuController.enable(false);
+  constructor(public menuController: MenuController, private signInService: SignInService, private router: Router, private cookieService: CookieService, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(7)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8)])
     });
+  }
+
+  ionViewDidEnter() {
+    this.menuController.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menuController.enable(true);
   }
 
   login() {
@@ -33,8 +41,11 @@ export class SignInOverzichtPage implements OnInit {
           // set token in cookies
           this.cookieService.set('access_token', resp.token, new Date((new Date()).getTime() + 604000000));
 
+          // call loggedIn
+          this.authenticationService.isLoggedIn();
+
           // navigate to home
-          this.router.navigate(['']);
+          this.router.navigate(['/']);
         }
       });
     }

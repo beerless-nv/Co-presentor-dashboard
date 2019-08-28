@@ -2,7 +2,7 @@
   <div class="position-relative h-100">
     <div id="create">
       <ion-card class="p-4">
-        <form [formGroup]="signupForm" (ngSubmit)="signUp()">
+        <form [formGroup]="signupForm" (ngSubmit)="signUp()" (keyup.enter)="signUp()">
           <h4 class="text-center font-weight-bold">Registreren</h4>
 
           <ion-item>
@@ -29,11 +29,13 @@
             <ion-input required formControlName="password" [type]="passwordVisible ? 'text' : 'password'"></ion-input>
           </ion-item>
 
-          <div class="text-center mx-3 mt-5">
+          <div class="text-center mx-3 mt-5 mb-3">
             <ion-button expand="block" type="submit" [disabled]="!signupForm.valid">
               Registreer
             </ion-button>
           </div>
+
+          <p class="text-center">Al een account? <a [routerLink]="['/sign-in']">Log in</a>.</p>
         </form>
       </ion-card>
     </div>

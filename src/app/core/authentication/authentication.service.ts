@@ -23,6 +23,7 @@ export class AuthenticationService {
       this.authState.next(true);
     } else {
       this.authState.next(false);
+      this.router.navigate(['/sign-in']);
     }
   }
 
@@ -32,6 +33,5 @@ export class AuthenticationService {
 
   logout() {
     this.cookieService.delete('access_token');
-    // this.router.navigate(['/sign-in']);
   }
 }

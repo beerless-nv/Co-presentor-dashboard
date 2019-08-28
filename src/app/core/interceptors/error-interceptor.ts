@@ -5,11 +5,12 @@ import {CookieService} from 'ngx-cookie-service';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {ErrorSuccessMessagesService} from '../../shared/services/error-success-messages/error-success-messages.service';
+import {AuthenticationService} from '../authentication/authentication.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(public alertController: AlertController, public toastController: ToastController, private cookieService: CookieService, private errorSuccessMessagesService: ErrorSuccessMessagesService) {
+  constructor(public alertController: AlertController, public toastController: ToastController, private cookieService: CookieService, private errorSuccessMessagesService: ErrorSuccessMessagesService, private authenticationService: AuthenticationService) {
   }
 
   intercept(
@@ -28,20 +29,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       tap(evt => {
-        // // Subscribe to success messages
-        // this.errorSuccessMessagesService.successMessage$.subscribe(async msg => {
-        //   if (evt instanceof HttpResponse) {
-        //     console.log(msg);
-        //
-        //     if (evt.statusText === 'OK') {
-        //       if (msg) {
-        //         console.log('definitie verwijderen');
-        //         await this.presentToast(msg);
-        //         this.errorSuccessMessagesService.successMessage$.next(null);
-        //       }
-        //     }
-        //   }
-        // });
       }),
       catchError((err: any) => {
         // Subscribe to error messages
@@ -54,7 +41,16 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.presentAlert(errorMessage);
         } else if (err instanceof HttpErrorResponse) {
           try {
-            this.presentAlert(err.error.error.message);
+            if (err.error.error.message === 'Error verifying token: invalid token') {
+              this.cookieService.delete('access_token');
+              this.authenticationService.isLoggedIn();
+            } else if (err.error.error.statusCode === 422) {
+              const details = err.error.error.details[0];
+              const msg = details.path.substr(1) + ' ' + details.message;
+              this.presentAlert(msg);
+            } else {
+              this.presentAlert(err.error.error.message);
+            }
           } catch (e) {
             this.presentAlert('Een onbekende error is opgetreden. Probeer opnieuw!');
           }

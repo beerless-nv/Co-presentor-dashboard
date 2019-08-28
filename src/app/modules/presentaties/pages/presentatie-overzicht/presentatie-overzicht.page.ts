@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {MenuController, ModalController} from '@ionic/angular';
 import {PresentatieModalComponent} from '../../components/presentatie-modal/presentatie-modal.component';
 import {PresentatiesService} from '../../shared/presentaties.service';
 
@@ -14,14 +15,20 @@ export class PresentatieOverzichtPage implements OnInit {
   slide: any;
   searchTerm = '';
 
-  constructor(private presentatiesService: PresentatiesService, private modalController: ModalController) {
+  constructor(private presentatiesService: PresentatiesService, private modalController: ModalController, private menuController: MenuController, private router: Router) {
   }
 
   ngOnInit() {
+    this.menuController.enable(true);
+
     this.presentatiesService.presentaties.subscribe((presentaties: any) => {
         this.presentaties = presentaties;
     });
   }
+
+  // ionViewWillEnter() {
+  //   this.menuController.enable(true);
+  // }
 
   searchPresentaties() {
     this.presentaties = this.presentatiesService.filterPresentaties(this.searchTerm);

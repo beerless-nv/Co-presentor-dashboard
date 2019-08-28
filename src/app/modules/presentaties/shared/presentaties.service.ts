@@ -45,7 +45,6 @@ export class PresentatiesService {
     return this.http.delete(this.urlPresentaties + '/' + presentatieId)
       .pipe(
         tap(resp => {
-          console.log('verwijderd');
           this.errorSuccessMessagesService.createSuccessMessage('Presentatie is verwijderd.');
         })
       )
