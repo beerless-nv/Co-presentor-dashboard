@@ -26,7 +26,7 @@ export class SignInOverzichtPage implements OnInit {
     });
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.menuController.enable(false);
   }
 

@@ -16,7 +16,14 @@ export class SignUpOverzichtPage implements OnInit {
   passwordVisible = false;
 
   constructor(public menuController: MenuController, private signUpService: SignUpService, private router: Router) {
+  }
+
+  ionViewWillEnter() {
     this.menuController.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menuController.enable(true);
   }
 
   ngOnInit() {
