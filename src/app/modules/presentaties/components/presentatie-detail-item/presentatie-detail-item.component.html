@@ -2,6 +2,14 @@
   <div class="d-flex flex-md-row flex-column my-2">
     <div class="presentatie">
       <div class="presentatie-image">
+        <div class="tts-buttons" *ngIf="!editText && slide.slide.ssml">
+          <div class="action-icon" (click)="tts()" *ngIf="!speaking">
+            <ion-icon name="volume-high"></ion-icon>
+          </div>
+          <div class="action-icon" (click)="stopAudio()" *ngIf="speaking">
+            <ion-icon name="volume-off"></ion-icon>
+          </div>
+        </div>
         <img [src]="slide.url" alt="afbeelding slide">
       </div>
       <div *ngIf="!slide.video || !showVideo" class="video-upload-container">
@@ -30,7 +38,7 @@
           <div>Extra video</div>
         </div>
         <div class="presentatie-video">
-          <i id="action-icon" class="material-icons" (click)="presentActionSheet(presentatie)">
+          <i class="material-icons action-icon" (click)="presentActionSheet(presentatie)">
             more_vert
           </i>
           <video controls>

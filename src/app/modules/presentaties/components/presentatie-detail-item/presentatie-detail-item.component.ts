@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActionSheetController, AlertController} from '@ionic/angular';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
+import {GoogleTtsSttService} from '../../../../shared/services/google-tts-stt/google-tts-stt.service';
 import {SlidesService} from '../../shared/slides.service';
 
 @Component({
@@ -16,8 +17,10 @@ export class PresentatieDetailItemComponent implements OnInit {
   files: UploadFile[] = [];
   isUploading = false;
   showVideo = false;
+  speaking = false;
+  audio;
 
-  constructor(private slidesService: SlidesService, private actionSheetController: ActionSheetController, private alertController: AlertController) {
+  constructor(private slidesService: SlidesService, private actionSheetController: ActionSheetController, private alertController: AlertController, private googleTtsSttService: GoogleTtsSttService) {
   }
 
   ngOnInit() {
@@ -114,5 +117,44 @@ export class PresentatieDetailItemComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  tts() {
+    this.speaking = true;
+
+    const ttsObject = {
+      audioConfig: {
+        audioEncoding: 'MP3',
+        pitch: 0,
+        speakingRate: 1
+      },
+      input: {
+        ssml: this.slide.slide.ssml
+      },
+      voice: {
+        languageCode: 'nl-NL',
+        name: 'nl-NL-Wavenet-E'
+      }
+    };
+
+    this.googleTtsSttService.tts(ttsObject).subscribe(speach => {
+      this.playAudio(speach);
+    });
+  }
+
+  playAudio(mp3) {
+    this.audio = new Audio('data:audio/mp3;base64,' + mp3.audioContent);
+
+    this.audio.play();
+    this.audio.onended = () => {
+      this.speaking = false;
+    };
+  }
+
+  stopAudio() {
+    this.speaking = false;
+
+    this.audio.pause();
+    this.audio.currentTime = 0;
   }
 }

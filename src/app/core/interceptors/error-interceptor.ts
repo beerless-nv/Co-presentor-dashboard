@@ -17,14 +17,16 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // set bearer token
-    const token = this.cookieService.get('access_token');
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+    // set bearer token if no token is set
+    if (!req.headers.get('X-Goog-Api-Key')) {
+      const token = this.cookieService.get('access_token');
+      if (token) {
+        req = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
     }
 
     return next.handle(req).pipe(
