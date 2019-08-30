@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActionSheetController, AlertController, ModalController} from '@ionic/angular';
+import {GoogleTtsSttService} from '../../../../shared/services/google-tts-stt/google-tts-stt.service';
 import {DefinitiesService} from '../../shared/definities.service';
 import {UpdateDefinitieComponent} from '../update-definitie/update-definitie.component';
 
@@ -12,8 +13,10 @@ export class DefinitieItemComponent implements OnInit {
 
   @Input() definitie;
   synoniemen;
+  speaking = false;
+  audio;
 
-  constructor(private actionSheetController: ActionSheetController, private alertController: AlertController, private modalController: ModalController, private definitiesService: DefinitiesService) {
+  constructor(private actionSheetController: ActionSheetController, private alertController: AlertController, private modalController: ModalController, private definitiesService: DefinitiesService, private googleTtsSttService: GoogleTtsSttService) {
   }
 
   ngOnInit() {
@@ -84,5 +87,44 @@ export class DefinitieItemComponent implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  tts() {
+    this.speaking = true;
+
+    const ttsObject = {
+      audioConfig: {
+        audioEncoding: 'MP3',
+        pitch: 0,
+        speakingRate: 1
+      },
+      input: {
+        ssml: this.definitie.ssml
+      },
+      voice: {
+        languageCode: 'nl-NL',
+        name: 'nl-NL-Wavenet-E'
+      }
+    };
+
+    this.googleTtsSttService.tts(ttsObject).subscribe(speach => {
+      this.playAudio(speach);
+    });
+  }
+
+  playAudio(mp3) {
+    this.audio = new Audio('data:audio/mp3;base64,' + mp3.audioContent);
+
+    this.audio.play();
+    this.audio.onended = () => {
+      this.speaking = false;
+    };
+  }
+
+  stopAudio() {
+    this.speaking = false;
+
+    this.audio.pause();
+    this.audio.currentTime = 0;
   }
 }

@@ -46,3 +46,33 @@
     background-color: rgba(#fff, 0.9);
   }
 }
+
+.action-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 48px;
+  width: 48px;
+}
+
+.round-button {
+  height: 48px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --border-radius: 50%;
+  cursor: pointer;
+  --box-shadow: none;
+  --background: #fff;
+  --background-hover: rgba(66, 66, 66, 0.08);
+  --color: rgb(66, 66, 66);
+  --color-activated: rgb(66, 66, 66);
+  --color-focused: rgb(66, 66, 66);
+  font-size: 5px !important;
+
+  ion-icon {
+    height: 24px;
+    width: 24px;
+  }
+}

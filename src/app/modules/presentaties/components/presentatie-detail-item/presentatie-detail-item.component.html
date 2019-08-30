@@ -3,12 +3,12 @@
     <div class="presentatie">
       <div class="presentatie-image">
         <div class="tts-buttons" *ngIf="!editText && slide.slide.ssml">
-          <div class="action-icon" (click)="tts()" *ngIf="!speaking">
+          <ion-fab-button color="light" class="action-button" (click)="tts()" *ngIf="!speaking">
             <ion-icon name="volume-high"></ion-icon>
-          </div>
-          <div class="action-icon" (click)="stopAudio()" *ngIf="speaking">
+          </ion-fab-button>
+          <ion-fab-button color="light" class="action-button" (click)="stopAudio()" *ngIf="speaking">
             <ion-icon name="volume-off"></ion-icon>
-          </div>
+          </ion-fab-button>
         </div>
         <img [src]="slide.url" alt="afbeelding slide">
       </div>

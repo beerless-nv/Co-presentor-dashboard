@@ -1,11 +1,15 @@
 // Import bootstrap scss file
 @import "~bootstrap/scss/bootstrap.scss";
 
-#action-icon {
-  position: absolute;
-  top: 0;
-  right: 10px;
-  cursor: pointer;
+//#action-icon {
+//  position: absolute;
+//  top: 0;
+//  right: 10px;
+//  cursor: pointer;
+//}
+
+ion-item {
+  padding: 4px 0;
 }
 
 .definitie-edit-tekst {
@@ -17,5 +21,17 @@
 
 .synoniem {
   margin-top: $spacer * 0.75;
-  //color: #aaa;
+}
+
+.buttons-definitie {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.definitie-label {
+  width: calc(100% - 96px);
+  height: auto;
 }

@@ -9,16 +9,23 @@
         <p class="text-center font-weight-bold mt-3 mb-0">Presentatie converteren...</p>
       </ng-container>
     </div>
-    <i class="material-icons action-icon" (click)="presentActionSheet(presentatie)">
-      more_vert
-    </i>
-    <ion-card-header routerLink="/presentaties/{{presentatie?.ID}}">
-      <ion-card-title class="text-truncate">
-        {{presentatie?.naam}}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content routerLink="/presentaties/{{presentatie?.ID}}" class="text-truncate">
-      {{presentatie?.beschrijving}}
-    </ion-card-content>
+    <!--<ion-fab-button color="light" class="action-button" (click)="presentActionSheet(presentatie)">-->
+      <!--<ion-icon name="more"></ion-icon>-->
+    <!--</ion-fab-button>-->
+    <div class="position-relative">
+      <ion-card-header routerLink="/presentaties/{{presentatie?.ID}}">
+        <ion-card-title class="text-truncate">
+          {{presentatie?.naam}}
+        </ion-card-title>
+      </ion-card-header>
+      <div class="button">
+        <ion-button class="round-button" (click)="presentActionSheet(presentatie)">
+          <ion-icon name="more" class="more-icon"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-card-content routerLink="/presentaties/{{presentatie?.ID}}" class="text-truncate">
+        {{presentatie?.beschrijving}}
+      </ion-card-content>
+    </div>
   </ion-card>
 </div>

@@ -10,3 +10,13 @@
   -webkit-background-size: cover;
   background-size: cover;
 }
+
+ion-header {
+  position: relative;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
