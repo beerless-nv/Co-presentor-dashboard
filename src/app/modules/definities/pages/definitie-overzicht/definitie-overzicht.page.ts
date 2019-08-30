@@ -39,4 +39,11 @@ export class DefinitieOverzichtPage implements OnInit {
     });
     return await modal.present();
   }
+
+  doRefresh(evt) {
+    this.definitiesService.getDefinities();
+    setTimeout(() => {
+      evt.detail.complete();
+    }, 1000);
+  }
 }

@@ -47,4 +47,11 @@ export class PresentatieOverzichtPage implements OnInit {
     });
     return await modal.present();
   }
+
+  doRefresh(evt) {
+    this.presentatiesService.getPresentaties();
+    setTimeout(() => {
+      evt.detail.complete();
+    }, 1000);
+  }
 }

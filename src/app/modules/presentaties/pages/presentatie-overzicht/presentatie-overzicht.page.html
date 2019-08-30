@@ -8,8 +8,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-searchbar (ionChange)="searchPresentaties()" [(ngModel)]="searchTerm"></ion-searchbar>
-
   <ng-container *ngFor="let presentatie of presentaties; let i = index">
     <div class="d-sm-block d-none">
       <ion-row *ngIf="i % 3 == 0">
@@ -28,7 +30,6 @@
       <app-presentatie-card [presentatie]="presentatie" *ngIf="presentatie"></app-presentatie-card>
     </div>
   </ng-container>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="createPresentatie()">
     <ion-fab-button color="light">
       <ion-icon name="add"></ion-icon>

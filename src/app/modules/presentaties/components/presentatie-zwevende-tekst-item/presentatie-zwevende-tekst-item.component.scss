@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+.zwevende-tekst-item {
+  margin-top: 16px;
+
+  .tekst-container {
+    --border-color: #fff;
+
+    .tekst {
+      padding: 1rem;
+      border: 1px dashed $border-color;
+      border-radius: 0.5rem;
+    }
+  }
+}

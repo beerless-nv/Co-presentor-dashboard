@@ -120,6 +120,14 @@ export class PresentatieDetailItemComponent implements OnInit {
   }
 
   tts() {
+    if (this.speaking) {
+      this.stopAudio();
+    } else {
+      this.playAudio();
+    }
+  }
+
+  playAudio() {
     this.speaking = true;
 
     const ttsObject = {
@@ -137,18 +145,14 @@ export class PresentatieDetailItemComponent implements OnInit {
       }
     };
 
-    this.googleTtsSttService.tts(ttsObject).subscribe(speach => {
-      this.playAudio(speach);
+    this.googleTtsSttService.tts(ttsObject).subscribe((mp3: any) => {
+      this.audio = new Audio('data:audio/mp3;base64,' + mp3.audioContent);
+
+      this.audio.play();
+      this.audio.onended = () => {
+        this.speaking = false;
+      };
     });
-  }
-
-  playAudio(mp3) {
-    this.audio = new Audio('data:audio/mp3;base64,' + mp3.audioContent);
-
-    this.audio.play();
-    this.audio.onended = () => {
-      this.speaking = false;
-    };
   }
 
   stopAudio() {

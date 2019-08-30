@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Zwevende teksten</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Sluiten</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ng-container *ngFor="let i of ['test', 'test', 'test', 'test']">
+      <div class="zwevende-tekst-item">
+        <ion-item class="tekst-container">
+          <div class="tekst">
+            Vandaag gaan Tijmen en ik het hebben over de Fluid Reality. Wel, Ik ben een goed voorbeeld van Fluid Reality. Ik
+            ben een onderdeel van de toekomst, belangrijk dus, maar besta niet echt. Ik ben zowaar vloeibare realiteit.
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label>Vrije dia's</ion-label>
+          <ion-select value="Selecteer" okText="Kiezen" cancelText="Annuleren">
+            <ion-select-option value="1">Dia 1</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ng-container>
+  </ion-list>
+</ion-content>
