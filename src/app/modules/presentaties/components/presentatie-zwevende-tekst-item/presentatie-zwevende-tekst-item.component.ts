@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
+import {tap} from 'rxjs/operators';
+import {ErrorSuccessMessagesService} from '../../../../shared/services/error-success-messages/error-success-messages.service';
+import {PresentatiesService} from '../../shared/presentaties.service';
+import {SlidesService} from '../../shared/slides.service';
+import {ZwevendeTekstenService} from '../../shared/zwevende-teksten.service';
 
 @Component({
   selector: 'app-presentatie-zwevende-tekst-item',
@@ -8,13 +13,35 @@ import {ModalController} from '@ionic/angular';
 })
 export class PresentatieZwevendeTekstItemComponent implements OnInit {
 
-  constructor(private modalController: ModalController) { }
+  @Input() zwevendeTekst: any;
+  @Input() vrijeSlides: Array<any>;
 
-  ngOnInit() {}
+  constructor(private modalController: ModalController, private zwevendeTekstenService: ZwevendeTekstenService, private slidesService: SlidesService, private errorSuccessMessagesService: ErrorSuccessMessagesService, private presentatiesService: PresentatiesService) {
+  }
+
+  ngOnInit() {
+  }
 
   dismissModal() {
     this.modalController.dismiss({
       dismissed: true
+    });
+  }
+
+  selectSlide(slideId) {
+    const slide = {
+      tekst: this.zwevendeTekst.tekst,
+      ssml: this.zwevendeTekst.ssml
+    };
+
+    this.slidesService.updateSlide(slide, slideId)
+      .pipe(
+        tap(resp => {
+          this.errorSuccessMessagesService.successMessage$.next('Zwevende tekst is toegevoegd');
+        })
+      ).subscribe();
+    this.zwevendeTekstenService.deleteZwevendeTekst(this.zwevendeTekst.ID).subscribe(resp => {
+      this.presentatiesService.getPresentaties();
     });
   }
 }

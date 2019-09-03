@@ -3,12 +3,12 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
 
-import {IonicModule, PopoverController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FileDropModule} from 'ngx-file-drop';
 import {PresentatieDetailItemComponent} from '../../components/presentatie-detail-item/presentatie-detail-item.component';
-import {PresentatieDetailPopMenuComponent} from '../../components/presentatie-detail-pop-menu/presentatie-detail-pop-menu.component';
 import {PresentatieZwevendeTekstItemComponent} from '../../components/presentatie-zwevende-tekst-item/presentatie-zwevende-tekst-item.component';
+import {PresentatieZwevendeTekstComponent} from '../../components/presentatie-zwevende-tekst/presentatie-zwevende-tekst.component';
 
 import {PresentatieDetailPage} from './presentatie-detail.page';
 
@@ -32,9 +32,10 @@ const routes: Routes = [
     PresentatieDetailPage,
     PresentatieDetailItemComponent,
     PresentatieZwevendeTekstItemComponent,
+    PresentatieZwevendeTekstComponent
   ],
   entryComponents: [
-    PresentatieZwevendeTekstItemComponent
+    PresentatieZwevendeTekstComponent
   ]
 })
 export class PresentatieDetailPageModule {

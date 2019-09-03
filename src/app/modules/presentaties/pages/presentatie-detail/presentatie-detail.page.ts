@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ModalController, PopoverController} from '@ionic/angular';
-import {PresentatieDetailPopMenuComponent} from '../../components/presentatie-detail-pop-menu/presentatie-detail-pop-menu.component';
-import {PresentatieZwevendeTekstItemComponent} from '../../components/presentatie-zwevende-tekst-item/presentatie-zwevende-tekst-item.component';
+import {ModalController} from '@ionic/angular';
+import {PresentatieZwevendeTekstComponent} from '../../components/presentatie-zwevende-tekst/presentatie-zwevende-tekst.component';
 import {PresentatiesService} from '../../shared/presentaties.service';
 import {SlidesService} from '../../shared/slides.service';
 
@@ -17,7 +16,8 @@ export class PresentatieDetailPage implements OnInit {
   presentatie: any;
   editText = false;
 
-  constructor(private presentatiesService: PresentatiesService, private slidesService: SlidesService, private route: ActivatedRoute, private modalController: ModalController) { }
+  constructor(private presentatiesService: PresentatiesService, private slidesService: SlidesService, private route: ActivatedRoute, private modalController: ModalController) {
+  }
 
   ngOnInit() {
     this.slidesService.slides.subscribe(slides => this.slides = slides);
@@ -33,12 +33,20 @@ export class PresentatieDetailPage implements OnInit {
   }
 
   getPresentatie(presentatieId) {
-    this.presentatie = this.presentatiesService.getPresentatie(presentatieId);
+    this.presentatiesService.getPresentatie(presentatieId).subscribe(presentatie => this.presentatie = presentatie);
   }
 
-  async presentModal() {
+  async presentZwevendeTekstenModal() {
+    const slides = await this.slides.filter(slide => {
+      if (!slide.slide.tekst || slide.slide.tekst === '') { return slide; }
+    });
+
     const modal = await this.modalController.create({
-      component: PresentatieZwevendeTekstItemComponent
+      component: PresentatieZwevendeTekstComponent,
+      componentProps: {
+        presentatieId: this.presentatie.ID,
+        vrijeSlides: slides
+      }
     });
     return await modal.present();
   }

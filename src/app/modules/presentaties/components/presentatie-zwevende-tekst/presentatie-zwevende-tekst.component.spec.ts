@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PresentatieDetailPopMenuComponent } from './presentatie-detail-pop-menu.component';
+import { PresentatieZwevendeTekstComponent } from './presentatie-zwevende-tekst.component';
 
-describe('PresentatieDetailPopMenuComponent', () => {
-  let component: PresentatieDetailPopMenuComponent;
-  let fixture: ComponentFixture<PresentatieDetailPopMenuComponent>;
+describe('PresentatieZwevendeTekstComponent', () => {
+  let component: PresentatieZwevendeTekstComponent;
+  let fixture: ComponentFixture<PresentatieZwevendeTekstComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PresentatieDetailPopMenuComponent ],
+      declarations: [ PresentatieZwevendeTekstComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PresentatieDetailPopMenuComponent);
+    fixture = TestBed.createComponent(PresentatieZwevendeTekstComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

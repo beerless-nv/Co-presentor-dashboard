@@ -26,10 +26,6 @@ export class PresentatieOverzichtPage implements OnInit {
     });
   }
 
-  // ionViewWillEnter() {
-  //   this.menuController.enable(true);
-  // }
-
   searchPresentaties() {
     this.presentaties = this.presentatiesService.filterPresentaties(this.searchTerm);
   }

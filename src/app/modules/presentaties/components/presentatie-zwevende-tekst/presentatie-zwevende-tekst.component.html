@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Zwevende teksten</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Sluiten</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ng-container *ngFor="let zwevendeTekst of zwevendeTeksten">
+      <app-presentatie-zwevende-tekst-item [zwevendeTekst]="zwevendeTekst" [vrijeSlides]="vrijeSlides"></app-presentatie-zwevende-tekst-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

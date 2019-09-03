@@ -87,6 +87,8 @@
   border: 1px solid $border-color;
   overflow-y: auto;
   min-height: 100px;
+  padding: $spacer;
+  border-radius: 0.5rem;
 }
 
 .action-buttons {
@@ -94,8 +96,9 @@
   text-align: center;
 }
 
-.buttons-presentatie {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+.header {
+  margin-bottom: $spacer;
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  padding: 0 0 0 $spacer;
 }
