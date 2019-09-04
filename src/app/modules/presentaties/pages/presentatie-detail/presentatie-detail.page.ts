@@ -4,6 +4,7 @@ import {ModalController} from '@ionic/angular';
 import {PresentatieZwevendeTekstComponent} from '../../components/presentatie-zwevende-tekst/presentatie-zwevende-tekst.component';
 import {PresentatiesService} from '../../shared/presentaties.service';
 import {SlidesService} from '../../shared/slides.service';
+import {ZwevendeTekstenService} from '../../shared/zwevende-teksten.service';
 
 @Component({
   selector: 'app-presentatie-detail',
@@ -12,19 +13,24 @@ import {SlidesService} from '../../shared/slides.service';
 })
 export class PresentatieDetailPage implements OnInit {
 
-  slides: any;
+  slides: Array<any>;
   presentatie: any;
-  editText = false;
+  zwevendeTeksten: Array<any>;
 
-  constructor(private presentatiesService: PresentatiesService, private slidesService: SlidesService, private route: ActivatedRoute, private modalController: ModalController) {
+  constructor(
+    private presentatiesService: PresentatiesService,
+    private slidesService: SlidesService,
+    private route: ActivatedRoute,
+    private modalController: ModalController,
+    private zwevendeTekstenService: ZwevendeTekstenService) {
   }
 
   ngOnInit() {
     this.slidesService.slides.subscribe(slides => this.slides = slides);
 
     this.route.params.subscribe(params => {
-      this.getSlides(params.id);
       this.getPresentatie(params.id);
+      this.getSlides(params.id);
     });
   }
 
@@ -33,21 +39,37 @@ export class PresentatieDetailPage implements OnInit {
   }
 
   getPresentatie(presentatieId) {
-    this.presentatiesService.getPresentatie(presentatieId).subscribe(presentatie => this.presentatie = presentatie);
+    this.presentatiesService.getPresentatie(presentatieId).subscribe(presentatie => {
+      this.presentatie = presentatie;
+      this.getZwevendeTeksten();
+    });
+  }
+
+  getZwevendeTeksten() {
+    this.zwevendeTekstenService.getZwevendeTekstenByPresentatieId(this.presentatie.ID).subscribe((zwevendeTeksten: any) => this.zwevendeTeksten = zwevendeTeksten);
   }
 
   async presentZwevendeTekstenModal() {
+    // get all empty slides
     const slides = await this.slides.filter(slide => {
-      if (!slide.slide.tekst || slide.slide.tekst === '') { return slide; }
+      if (!slide.slide.tekst || slide.slide.tekst === '') {
+        return slide;
+      }
     });
 
+    // create modal
     const modal = await this.modalController.create({
       component: PresentatieZwevendeTekstComponent,
       componentProps: {
-        presentatieId: this.presentatie.ID,
+        zwevendeTeksten: this.zwevendeTeksten,
         vrijeSlides: slides
       }
     });
+
+    // if modal is dismissed, execute following function
+    modal.onDidDismiss().then(data => this.zwevendeTeksten = data.data.zwevendeTeksten);
+
+    // open modal
     return await modal.present();
   }
 }

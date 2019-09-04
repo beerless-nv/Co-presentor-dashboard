@@ -8,9 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ng-container *ngFor="let zwevendeTekst of zwevendeTeksten">
-      <app-presentatie-zwevende-tekst-item [zwevendeTekst]="zwevendeTekst" [vrijeSlides]="vrijeSlides"></app-presentatie-zwevende-tekst-item>
-    </ng-container>
-  </ion-list>
+  <ng-container *ngIf="zwevendeTeksten.length > 0">
+    <ion-list>
+      <ng-container *ngFor="let zwevendeTekst of zwevendeTeksten">
+        <app-presentatie-zwevende-tekst-item [zwevendeTekst]="zwevendeTekst"
+                                             [vrijeSlides]="vrijeSlides"></app-presentatie-zwevende-tekst-item>
+      </ng-container>
+    </ion-list>
+  </ng-container>
+  <ng-container *ngIf="zwevendeTeksten.length === 0">
+    <div class="h-100 d-flex justify-content-center align-items-center text-center">
+      <ion-text color="medium">
+        Er zijn op dit moment geen zwevende teksten beschikbaar.
+      </ion-text>
+    </div>
+  </ng-container>
 </ion-content>

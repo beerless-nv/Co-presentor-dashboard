@@ -7,9 +7,8 @@
   <ion-item>
     <ion-label>Vrije dia's</ion-label>
     <ion-select value="Selecteer" okText="Kiezen" cancelText="Annuleren" (ionChange)="selectSlide(slide.value)" #slide>
-      <ng-container *ngFor="let slide of vrijeSlides">
-        <ion-select-option [value]="slide.slide.ID">Slide {{slide.slide.volgnummer}} <img [src]="slide.url" alt="afbeelding slide"/></ion-select-option>
-      </ng-container>
+      <ion-select-option *ngFor="let slide of vrijeSlides" [value]="slide.slide.volgnummer">
+        Slide {{slide.slide.volgnummer}}</ion-select-option>
     </ion-select>
   </ion-item>
 </div>

@@ -8,10 +8,15 @@
       <h5 class="text-dark m-0">Slide {{slide.slide.volgnummer}}</h5>
       <div>
         <div class="buttons-presentatie">
-          <ion-button class="round-button" (click)="tts()">
-            <ion-icon name="volume-high" class="more-icon" *ngIf="!speaking"></ion-icon>
-            <ion-icon name="volume-off" class="more-icon" *ngIf="speaking"></ion-icon>
-          </ion-button>
+          <ion-buttons>
+            <ion-button (click)="tts()" *ngIf="slide.slide.tekst">
+              <ion-icon slot="icon-only" name="volume-high" *ngIf="!speaking"></ion-icon>
+              <ion-icon slot="icon-only" name="volume-off" *ngIf="speaking"></ion-icon>
+            </ion-button>
+            <ion-button (click)="presentActionSheet()">
+              <ion-icon slot="icon-only" name="more"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </div>
       </div>
     </div>
@@ -29,7 +34,6 @@
         <!-- Video upload -->
 
         <div *ngIf="!slide.video || !showVideo" class="video-upload-container">
-          <ion-button color="light" (click)="uploadVideo = !uploadVideo" *ngIf="!uploadVideo">Upload video</ion-button>
           <div class="video-upload-area" *ngIf="uploadVideo">
             <div class="loader" *ngIf="isUploading">
               <div class="w-100">
@@ -58,9 +62,6 @@
             <div>Extra video</div>
           </div>
           <div class="presentatie-video">
-            <i class="material-icons action-icon" (click)="presentActionSheet(presentatie)">
-              more_vert
-            </i>
             <video controls>
               <source [src]="slide.video">
               Your browser does not support HTML5 video.
@@ -81,8 +82,8 @@
           <div *ngIf="editText" class="presentatie-text-container">
             <div class="presentatie-edit-tekst" contenteditable #tekst>{{slide.slide.tekst}}</div>
             <div class="action-buttons">
-              <ion-button color="light" (click)="editText = false">Annuleren</ion-button>
-              <ion-button color="primary" (click)="changeSlideTekst(tekst)">Opslaan</ion-button>
+              <ion-button size="default" color="light" (click)="editText = false">Annuleren</ion-button>
+              <ion-button size="default" color="primary" (click)="changeSlideTekst(tekst)">Opslaan</ion-button>
             </div>
           </div>
         </div>

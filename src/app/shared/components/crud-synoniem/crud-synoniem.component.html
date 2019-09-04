@@ -14,9 +14,9 @@
           <span *ngIf="!synoniem.naam" class="placeholder">Vul in...</span>
           <span *ngIf="synoniem.naam">{{synoniem?.naam}}</span>
         </div>
-        <div *ngIf="edit === i" class="d-flex">
+        <div *ngIf="edit === i" class="d-flex flex-row">
           <div contenteditable class="synoniem-edit" [id]="'synoniemEdit' + i" #value>{{synoniem.naam}}</div>
-          <ion-button size="small" (click)="updateSynoniem(value.innerHTML, i)">Ok</ion-button>
+          <ion-button size="default" class="ok-button" (click)="updateSynoniem(value.innerHTML, i)">Ok</ion-button>
         </div>
       </div>
       <div class="col">

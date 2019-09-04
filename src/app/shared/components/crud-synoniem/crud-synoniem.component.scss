@@ -37,6 +37,17 @@
 .synoniem-edit {
   border: 1px solid $border-color;
   overflow-y: auto;
+  border-radius: 0.5rem 0 0 0.5rem;
+  padding: 0.3rem 0.5rem;
+  height: 36px;
+}
+
+.ok-button {
+  height: 36px;
+  margin: 0;
+  --border-width: 0;
+  --box-shadow: none;
+  --border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .synoniem-naam, .synoniem-edit {

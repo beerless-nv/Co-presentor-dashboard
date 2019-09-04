@@ -66,29 +66,44 @@ export class PresentatieDetailItemComponent implements OnInit {
   }
 
   async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Slide ' + this.slide.slide.volgnummer,
-      buttons: [{
-        text: 'Bewerken',
+    const buttons = [];
+
+    if (this.slide.video && this.slide.video !== '') {
+      buttons.push({
+        text: 'Video bewerken',
         icon: 'create',
         handler: () => {
           this.showVideo = false;
           this.uploadVideo = true;
         }
-      }, {
-        text: 'Verwijderen',
-        role: 'destructive',
+      });
+      buttons.push({
+        text: 'Video verwijderen',
         icon: 'trash',
         handler: () => {
           this.deleteVideoConfirm(this.slide.slide.ID);
         }
-      }, {
-        text: 'Annuleren',
-        icon: 'close',
-        role: 'cancel',
+      });
+    } else {
+      buttons.push({
+        text: 'Video uploaden',
+        icon: 'cloud-upload',
         handler: () => {
+          this.showVideo = false;
+          this.uploadVideo = true;
         }
-      }]
+      });
+    }
+
+    buttons.push({
+      text: 'Annuleren',
+      icon: 'close',
+      handler: () => {
+      }
+    });
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Slide ' + this.slide.slide.volgnummer,
+      buttons
     });
     await actionSheet.present();
   }

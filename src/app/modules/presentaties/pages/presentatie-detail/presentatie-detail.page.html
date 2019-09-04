@@ -7,6 +7,7 @@
     <ion-buttons slot="end">
       <ion-button (click)="presentZwevendeTekstenModal()">
         <ion-icon slot="icon-only" name="text"></ion-icon>
+        <ion-badge class="badge" *ngIf="zwevendeTeksten?.length > 0">{{zwevendeTeksten?.length}}</ion-badge>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

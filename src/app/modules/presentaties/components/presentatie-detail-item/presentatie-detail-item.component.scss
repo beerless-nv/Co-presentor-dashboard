@@ -60,7 +60,6 @@
 .presentatie-edit-area {
   flex: 1;
   margin-left: $spacer * 0.5;
-  margin-right: $spacer;
 
   @include media-breakpoint-down(sm) {
     margin-left: 0;
@@ -88,12 +87,27 @@
   overflow-y: auto;
   min-height: 100px;
   padding: $spacer;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .action-buttons {
   width: 100%;
   text-align: center;
+  display: flex;
+
+  ion-button {
+    width: 50%;
+    margin: 0;
+    --border-width: 0;
+    --box-shadow: none;
+
+    &:first-child {
+      --border-radius: 0 0 0 0.5rem;
+    }
+    &:last-child {
+      --border-radius: 0 0 0.5rem 0;
+    }
+  }
 }
 
 .header {

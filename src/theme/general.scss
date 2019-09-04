@@ -1,3 +1,7 @@
 .spinner-border {
   color: #bbb;
 }
+
+div[contenteditable]:focus {
+  outline: none;
+}

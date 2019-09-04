@@ -15,12 +15,14 @@
   </div>
 </ion-item>
 <div class="buttons-definitie">
-  <ion-button class="round-button" (click)="tts()">
-    <ion-icon name="volume-high" class="more-icon" *ngIf="!speaking"></ion-icon>
-    <ion-icon name="volume-off" class="more-icon" *ngIf="speaking"></ion-icon>
-  </ion-button>
-  <ion-button class="round-button" (click)="presentActionSheet(definitie)">
-    <ion-icon name="more" class="more-icon"></ion-icon>
-  </ion-button>
+  <ion-buttons>
+    <ion-button (click)="tts()">
+      <ion-icon slot="icon-only" name="volume-high" *ngIf="!speaking"></ion-icon>
+      <ion-icon slot="icon-only" name="volume-off" *ngIf="speaking"></ion-icon>
+    </ion-button>
+    <ion-button (click)="presentActionSheet(definitie)">
+      <ion-icon slot="icon-only" name="more"></ion-icon>
+    </ion-button>
+  </ion-buttons>
 </div>
 
