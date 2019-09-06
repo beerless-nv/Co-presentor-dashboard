@@ -22,6 +22,11 @@ export class AppComponent {
       title: 'Definities',
       url: '/definities',
       icon: 'list'
+    },
+    {
+      title: 'Instellingen',
+      url: '/instellingen',
+      icon: 'settings'
     }
   ];
 

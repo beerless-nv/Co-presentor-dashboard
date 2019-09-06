@@ -6,6 +6,7 @@ import {environment} from '../../../../environments/environment';
 import {ErrorSuccessMessagesService} from '../../../shared/services/error-success-messages/error-success-messages.service';
 import {SynoniemenService} from '../../../shared/services/synoniemen/synoniemen.service';
 import parseTextToSSML from '../../../shared/scripts/parseTextToSSML';
+import {TtsInstellingenService} from '../../../shared/services/tts-instellingen/tts-instellingen.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,12 @@ export class DefinitiesService {
   public definitie: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
-  constructor(public http: HttpClient, private synoniemenService: SynoniemenService, private errorSuccessMessagesService: ErrorSuccessMessagesService) {
+  constructor(
+    public http: HttpClient,
+    private synoniemenService: SynoniemenService,
+    private errorSuccessMessagesService: ErrorSuccessMessagesService,
+    private ttsInstellingenService: TtsInstellingenService
+  ) {
     this.getDefinities();
   }
 
@@ -27,7 +33,7 @@ export class DefinitiesService {
       const definitiesArray = [];
 
       definities.map(definitie => {
-        this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe( (synoniemen: Array<any>) => {
+        this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe((synoniemen: Array<any>) => {
           definitie.synoniemen = synoniemen;
           definitiesArray.push(definitie);
           definitiesArray.sort((a, b) => {
@@ -44,9 +50,9 @@ export class DefinitiesService {
   getDefinitie(id) {
     return this.http.get(this.urlDefinities + '/' + id).subscribe((definitie: any) => {
       this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe((synoniemen: Array<any>) => {
-            definitie.synoniemen = synoniemen;
-            this.definitie.next(definitie);
-          });
+        definitie.synoniemen = synoniemen;
+        this.definitie.next(definitie);
+      });
     });
   }
 
@@ -57,7 +63,7 @@ export class DefinitiesService {
   }
 
   createDefinitie(definitie) {
-    definitie.ssml = parseTextToSSML(definitie.tekst);
+    definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
     return this.http.post(this.urlDefinities, definitie)
       .pipe(
         tap(resp => {
@@ -67,13 +73,27 @@ export class DefinitiesService {
   }
 
   updateDefinitie(definitie, definitieId) {
-    definitie.ssml = parseTextToSSML(definitie.tekst);
+    definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
     return this.http.patch(this.urlDefinities + '/' + definitieId, definitie)
       .pipe(
         tap(resp => {
           this.errorSuccessMessagesService.successMessage$.next('Definitie is aangepast.');
         })
       );
+  }
+
+  async updateAllDefinitiesTekst() {
+    const params = new HttpParams()
+      .append('filter[where][tekst][neq]', '');
+    return this.http.get<Array<any>>(this.urlDefinities, {params}).toPromise().then(async definities => {
+      definities.map(definitie => {
+        definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
+      });
+
+      await this.http.patch(this.urlDefinities + '/bulk', definities).toPromise();
+
+      return 'done';
+    });
   }
 
   deleteDefinitie(definitieId) {

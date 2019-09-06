@@ -67,7 +67,12 @@ export class PresentatieDetailPage implements OnInit {
     });
 
     // if modal is dismissed, execute following function
-    modal.onDidDismiss().then(data => this.zwevendeTeksten = data.data.zwevendeTeksten);
+    modal.onDidDismiss().then(data => {
+      console.log(data);
+      if (data.data) {
+        this.zwevendeTeksten = data.data.zwevendeTeksten;
+      }
+    });
 
     // open modal
     return await modal.present();

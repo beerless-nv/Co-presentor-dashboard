@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/instellingen"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Text to speech</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Pauzes
+    </ion-list-header>
+    <app-settings-tts-pauzes-item *ngFor="let pauzeItem of ttsInstellingen" [pauzeItem]="pauzeItem"></app-settings-tts-pauzes-item>
+  </ion-list>
+</ion-content>

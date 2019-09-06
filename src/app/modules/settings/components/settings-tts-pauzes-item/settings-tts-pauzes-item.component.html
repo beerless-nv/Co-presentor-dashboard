@@ -1,0 +1,16 @@
+<ion-item>
+  <ion-label>
+    <h2 class="d-flex justify-content-between">
+      <ion-text>
+        {{pauzeItem.naam}}
+        <ion-text color="medium" class="font-weight-bold">( {{pauzeItem.leesteken}} )</ion-text>
+      </ion-text>
+      <ion-text color="medium" class="font-weight-bold">{{value || pauzeItem.waarde}}s</ion-text>
+    </h2>
+    <ion-range [value]="pauzeItem.waarde" min="0" max="2" step="0.1" snaps="true" ticks="false" color="primary"
+               (ionChange)="changeValue($event)" (ionBlur)="updateItem()">
+      <ion-label slot="start">0s</ion-label>
+      <ion-label slot="end">2s</ion-label>
+    </ion-range>
+  </ion-label>
+</ion-item>
