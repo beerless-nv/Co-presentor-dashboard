@@ -1,4 +1,12 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse
+} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
 import {CookieService} from 'ngx-cookie-service';
@@ -18,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // set bearer token if no token is set
-    if (!req.headers.get('X-Goog-Api-Key')) {
+    if (!req.headers.get('X-Goog-Api-Key') && !req.headers.get('no-auth')) {
       const token = this.cookieService.get('access_token');
       if (token) {
         req = req.clone({
@@ -27,6 +35,10 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
         });
       }
+    }
+
+    if (req.headers.get('no-auth')) {
+      req = req.clone({headers: req.headers.delete('no-auth')});
     }
 
     return next.handle(req).pipe(

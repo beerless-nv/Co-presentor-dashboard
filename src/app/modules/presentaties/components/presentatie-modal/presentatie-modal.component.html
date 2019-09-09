@@ -32,6 +32,7 @@
             </ng-container>
           </div>
           <div class="upload">
+            <input type="file" (change)="dropped($event)"/>
             <file-drop dropZoneLabel="Powerpoint neerzetten of " (onFileDrop)="dropped($event)"
                        [showBrowseBtn]="true" browseBtnLabel="Zoek powerpoint" browseBtnClassName="upload-browse-button"
                        dropZoneClassName="upload-dropzone" multiple="false" contentClassName="dropzone-content"

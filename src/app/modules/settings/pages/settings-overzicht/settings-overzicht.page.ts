@@ -11,11 +11,6 @@ export class SettingsOverzichtPage implements OnInit {
       title: 'Text to speech',
       url: '/instellingen/text-to-speech',
       icon: 'text'
-    },
-    {
-      title: 'Definities',
-      url: '/definities',
-      icon: 'list'
     }
   ];
 

@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -81,15 +81,38 @@ export class PresentatiesService {
       );
   }
 
-  uploadPresentatie(file, presentatie) {
+  uploadPresentatie(file, uploadUrl) {
+    const headers = new HttpHeaders()
+      .append('no-auth', 'true');
+
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(environment.backend + 'uploadPresentatie/' + presentatie.ID + '/' + presentatie.naam, formData)
+    return this.http.post(uploadUrl, formData, {headers})
       .pipe(
         tap(resp => {
           this.errorSuccessMessagesService.successMessage$.next('Presentatie is geüpload.');
         })
       );
+  }
+
+  // uploadPresentatie(file, uploadUrl) {
+  //   const headers = new HttpHeaders()
+  //     .append('no-auth', 'true');
+  //
+  //   return this.http.put(uploadUrl, file, {headers})
+  //     .pipe(
+  //       tap(resp => {
+  //         this.errorSuccessMessagesService.successMessage$.next('Presentatie is geüpload.');
+  //       })
+  //     );
+  // }
+
+  generateUploadLink(presentatieId) {
+    return this.http.get(environment.backend + '/generateUploadLink/' + presentatieId);
+  }
+
+  createSlides(presentatie) {
+    return this.http.get(environment.backend + '/createSlides/' + presentatie.ID + '/' + presentatie.naam);
   }
 }

@@ -17,8 +17,11 @@ export class PresentatieModalComponent implements OnInit {
   synoniemen = [];
   presentatieForm: FormGroup;
   files: UploadFile[] = [];
+  file;
+  filename: string;
   isUploading = false;
   fileLoaded = false;
+  uploadUrl: string;
 
   constructor(private modalController: ModalController, private presentatiesService: PresentatiesService, private synoniemenService: SynoniemenService) {
   }
@@ -63,18 +66,41 @@ export class PresentatieModalComponent implements OnInit {
   }
 
   afterSavePresentatie() {
+    // update synoniemen
     this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
-    if (this.files.length > 0) {
-      this.uploadPresentation().then(resp => {
+
+    // generate upload link for presentations
+    this.presentatiesService.generateUploadLink(this.presentatie.ID).subscribe((upload: any) => {
+      // this.uploadUrl = 'https:' + upload.upload.url + '/' + this.filename;
+      this.uploadUrl = 'https:' + upload.upload.url;
+
+      // if (this.file) {
+      if (this.files.length > 0) {
+        this.uploadPresentation().then(resp => {
+          this.dismissModal();
+        });
+      } else {
         this.dismissModal();
-      });
-    } else {
-      this.dismissModal();
-    }
+      }
+    });
+
     this.presentatiesService.getPresentaties();
   }
 
-  public dropped(event: UploadEvent) {
+  // public dropped(event) {
+  //   // this.files = event.files;
+  //   this.fileLoaded = true;
+  //
+  //   const fileReader = new FileReader();
+  //   fileReader.onload = (e) => {
+  //     this.file = fileReader.result;
+  //   };
+  //   fileReader.readAsText(event.target.files[0]);
+  //
+  //   this.filename = event.target.files[0].name;
+  // }
+
+  public dropped(event) {
     this.files = event.files;
     this.fileLoaded = true;
   }
@@ -82,16 +108,14 @@ export class PresentatieModalComponent implements OnInit {
   uploadPresentation(): Promise<string> {
     return new Promise((resolve, reject) => {
       for (const droppedFile of this.files) {
-
         // Is it a file?
         if (droppedFile.fileEntry.isFile) {
           const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
           fileEntry.file((file: File) => {
             this.isUploading = true;
 
-            this.presentatiesService.uploadPresentatie(file, this.presentatie).subscribe(resp => {
-              this.presentatiesService.getPresentaties();
-              resolve('upload done');
+            this.presentatiesService.uploadPresentatie(file, this.uploadUrl).subscribe(resp => {
+              this.createSlides();
             });
           });
         } else {
@@ -99,6 +123,18 @@ export class PresentatieModalComponent implements OnInit {
           const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         }
       }
+
+      // this.presentatiesService.uploadPresentatie(this.file, this.uploadUrl).subscribe(resp => {
+      //   this.presentatiesService.getPresentaties();
+      //   resolve('upload done');
+      // });
+    });
+  }
+
+  createSlides() {
+    this.presentatiesService.createSlides(this.presentatie).subscribe(resp => {
+      this.presentatiesService.getPresentaties();
+      this.dismissModal();
     });
   }
 }
