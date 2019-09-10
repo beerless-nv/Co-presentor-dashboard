@@ -24,17 +24,17 @@ export class PresentatieCardComponent implements OnInit, AfterViewInit {
       this.presentatie.slide = slide[0];
     });
 
-    if (!this.interval) {
-      this.interval = setInterval(() => {
-        if (this.presentatie.slide === undefined) {
-          this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
-            this.presentatie.slide = slide[0];
-          });
-        } else {
-          clearInterval(this.interval);
-        }
-      }, 5000);
-    }
+    // if (!this.interval) {
+    //   this.interval = setInterval(() => {
+    //     if (this.presentatie.slide === undefined) {
+    //       this.slidesService.getSlide(1, this.presentatie.ID).subscribe(slide => {
+    //         this.presentatie.slide = slide[0];
+    //       });
+    //     } else {
+    //       clearInterval(this.interval);
+    //     }
+    //   }, 5000);
+    // }
   }
 
   ngAfterViewInit(): void {

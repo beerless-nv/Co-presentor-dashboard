@@ -8,7 +8,7 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class TtsInstellingenService {
 
-  readonly urlTtsInstellingen = environment.backend + '/tts-instellingen';
+  readonly urlTtsInstellingen = environment.backend + 'tts-instellingen';
   ttsInstellingen$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(public http: HttpClient) {

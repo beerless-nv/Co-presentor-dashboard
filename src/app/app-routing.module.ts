@@ -20,6 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'controls',
+    loadChildren: './modules/controls/controls.module#ControlsModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'instellingen',
     loadChildren: './modules/settings/settings.module#SettingsModule',
     canActivate: [AuthGuard]

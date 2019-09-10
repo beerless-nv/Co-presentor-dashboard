@@ -24,6 +24,11 @@ export class AppComponent {
       icon: 'list'
     },
     {
+      title: 'Controls',
+      url: '/controls',
+      icon: 'phone-portrait'
+    },
+    {
       title: 'Instellingen',
       url: '/instellingen',
       icon: 'settings'

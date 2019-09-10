@@ -1,0 +1,17 @@
+.controls-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-button {
+  height: 70px;
+  width: 70px;
+  margin: 20px;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

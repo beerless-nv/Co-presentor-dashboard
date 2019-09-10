@@ -22,6 +22,7 @@ export class PresentatieModalComponent implements OnInit {
   isUploading = false;
   fileLoaded = false;
   uploadUrl: string;
+  processUrl: string;
 
   constructor(private modalController: ModalController, private presentatiesService: PresentatiesService, private synoniemenService: SynoniemenService) {
   }
@@ -44,12 +45,27 @@ export class PresentatieModalComponent implements OnInit {
     });
   }
 
+  /**
+   * Dismiss the modal.
+   */
   dismissModal() {
     this.modalController.dismiss({
       dismissed: true
     });
   }
 
+  /**
+   * Add files to files array when dropped.
+   * @param event (UploadEvent)
+   */
+  public dropped(event) {
+    this.files = event.files;
+    this.fileLoaded = true;
+  }
+
+  /**
+   * Creates a presentation object
+   */
   savePresentatie() {
     if (this.presentatieForm.valid) {
       if (this.presentatie.ID) {
@@ -65,6 +81,11 @@ export class PresentatieModalComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates synonyms
+   * Generates upload link
+   * If files are present, upload the powerpoint.
+   */
   afterSavePresentatie() {
     // update synoniemen
     this.synoniemenService.updateSynoniem(this.synoniemen, this.presentatie.ID, 0).subscribe();
@@ -73,6 +94,7 @@ export class PresentatieModalComponent implements OnInit {
     this.presentatiesService.generateUploadLink(this.presentatie.ID).subscribe((upload: any) => {
       // this.uploadUrl = 'https:' + upload.upload.url + '/' + this.filename;
       this.uploadUrl = 'https:' + upload.upload.url;
+      this.processUrl = 'https:' + upload.url;
 
       // if (this.file) {
       if (this.files.length > 0) {
@@ -87,24 +109,9 @@ export class PresentatieModalComponent implements OnInit {
     this.presentatiesService.getPresentaties();
   }
 
-  // public dropped(event) {
-  //   // this.files = event.files;
-  //   this.fileLoaded = true;
-  //
-  //   const fileReader = new FileReader();
-  //   fileReader.onload = (e) => {
-  //     this.file = fileReader.result;
-  //   };
-  //   fileReader.readAsText(event.target.files[0]);
-  //
-  //   this.filename = event.target.files[0].name;
-  // }
-
-  public dropped(event) {
-    this.files = event.files;
-    this.fileLoaded = true;
-  }
-
+  /**
+   * Upload the powerpoint to CloudConvert.
+   */
   uploadPresentation(): Promise<string> {
     return new Promise((resolve, reject) => {
       for (const droppedFile of this.files) {
@@ -115,7 +122,7 @@ export class PresentatieModalComponent implements OnInit {
             this.isUploading = true;
 
             this.presentatiesService.uploadPresentatie(file, this.uploadUrl).subscribe(resp => {
-              this.createSlides();
+              this.checkStatus(this.processUrl);
             });
           });
         } else {
@@ -123,18 +130,33 @@ export class PresentatieModalComponent implements OnInit {
           const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         }
       }
-
-      // this.presentatiesService.uploadPresentatie(this.file, this.uploadUrl).subscribe(resp => {
-      //   this.presentatiesService.getPresentaties();
-      //   resolve('upload done');
-      // });
     });
   }
 
+  /**
+   * Check status of conversion.
+   *
+   * @param processUrl (string)
+   */
+  checkStatus(processUrl: string) {
+    const interval = setInterval(() => {
+      this.presentatiesService.checkStatus(processUrl).subscribe((status: any) => {
+        console.log(status.step);
+        if (status.step === 'finished') {
+          this.createSlides();
+          clearInterval(interval);
+        }
+      });
+    }, 2000);
+  }
+
+  /**
+   * Create slide objects
+   */
   createSlides() {
+    this.dismissModal();
     this.presentatiesService.createSlides(this.presentatie).subscribe(resp => {
       this.presentatiesService.getPresentaties();
-      this.dismissModal();
     });
   }
 }

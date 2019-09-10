@@ -96,23 +96,18 @@ export class PresentatiesService {
       );
   }
 
-  // uploadPresentatie(file, uploadUrl) {
-  //   const headers = new HttpHeaders()
-  //     .append('no-auth', 'true');
-  //
-  //   return this.http.put(uploadUrl, file, {headers})
-  //     .pipe(
-  //       tap(resp => {
-  //         this.errorSuccessMessagesService.successMessage$.next('Presentatie is geüpload.');
-  //       })
-  //     );
-  // }
+  checkStatus(uploadUrl) {
+    const headers = new HttpHeaders()
+      .append('no-auth', 'true');
+
+    return this.http.get(uploadUrl, {headers});
+  }
 
   generateUploadLink(presentatieId) {
-    return this.http.get(environment.backend + '/generateUploadLink/' + presentatieId);
+    return this.http.get(environment.backend + 'generateUploadLink/' + presentatieId);
   }
 
   createSlides(presentatie) {
-    return this.http.get(environment.backend + '/createSlides/' + presentatie.ID + '/' + presentatie.naam);
+    return this.http.get(environment.backend + 'createSlides/' + presentatie.ID + '/' + presentatie.naam);
   }
 }

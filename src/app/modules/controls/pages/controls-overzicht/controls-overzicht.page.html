@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Controls</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="controls-container">
+    <div>
+      <div class="text-center">
+        <ion-button size="large" (click)="startVideo()">
+          <ion-icon name="videocam"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="text-center">
+        <ion-button size="large" (click)="enterFullScreen()">
+          <ion-icon name="expand"></ion-icon>
+        </ion-button>
+        <ion-button size="large" (click)="exitFullScreen()">
+          <ion-icon name="contract"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="text-center">
+        <ion-button size="large" (click)="startListening()">
+          <ion-icon name="mic"></ion-icon>
+        </ion-button>
+        <ion-button size="large" (click)="stopListening()">
+          <ion-icon name="mic-off"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="text-center">
+        <ion-button size="large" (click)="startSpeaking()">
+          <ion-icon name="volume-high"></ion-icon>
+        </ion-button>
+        <ion-button size="large" (click)="stopListening()">
+          <ion-icon name="volume-off"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="text-center">
+        <ion-button size="large" (click)="previousSlide()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+        <ion-button size="large" (click)="nextSlide()">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
