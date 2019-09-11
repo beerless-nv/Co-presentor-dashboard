@@ -1,0 +1,14 @@
+.platform-button {
+  margin: 0;
+  margin-top: 10px;
+  font-size: 0.7rem;
+  padding: 3.5px 12px 3.5px 6px;
+  background-color: transparent;
+  border: 1px solid #dedede;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    height: 0.8rem;
+    margin: 0
+  }
+}

@@ -29,6 +29,11 @@ export class AppComponent {
       icon: 'phone-portrait'
     },
     {
+      title: 'Downloads',
+      url: '/downloads',
+      icon: 'appstore'
+    },
+    {
       title: 'Instellingen',
       url: '/instellingen',
       icon: 'settings'

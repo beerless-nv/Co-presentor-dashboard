@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "short_name": "app",
-  "theme_color": "#1976d2",
+  "name": "Co-presentator",
+  "short_name": "Presentator",
+  "theme_color": "#3880FF",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",

@@ -25,6 +25,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'downloads',
+    loadChildren: './modules/download/download.module#DownloadModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'instellingen',
     loadChildren: './modules/settings/settings.module#SettingsModule',
     canActivate: [AuthGuard]
