@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, DoCheck, OnInit} from '@angular/core';
+import {AfterContentInit, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
@@ -15,6 +15,7 @@ export class SignInOverzichtPage implements OnInit {
 
   loginForm: FormGroup;
   passwordVisible = false;
+  isLogging = false;
 
   constructor(public menuController: MenuController, private signInService: SignInService, private router: Router, private cookieService: CookieService, private authenticationService: AuthenticationService) {
   }
@@ -27,6 +28,7 @@ export class SignInOverzichtPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.isLogging = false;
     this.menuController.enable(false);
   }
 
@@ -36,16 +38,20 @@ export class SignInOverzichtPage implements OnInit {
 
   login() {
     if (this.loginForm.valid) {
+      this.isLogging = true;
+
       this.signInService.login(this.loginForm.value).subscribe((resp: any) => {
         if (resp.token) {
-          // set token in cookies
-          this.cookieService.set('access_token', resp.token, new Date((new Date()).getTime() + 604000000));
+          setTimeout(() => {
+            // set token in cookies
+            this.cookieService.set('access_token', resp.token, new Date((new Date()).getTime() + 604000000));
 
-          // call loggedIn
-          this.authenticationService.isLoggedIn();
+            // call loggedIn
+            this.authenticationService.isLoggedIn();
 
-          // navigate to home
-          this.router.navigate(['/']);
+            // navigate to home
+            this.router.navigate(['/']);
+          }, 500);
         }
       });
     }

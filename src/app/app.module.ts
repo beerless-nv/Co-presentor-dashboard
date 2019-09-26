@@ -14,8 +14,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthGuard} from './core/authentication/auth-guard.service';
 import {AuthenticationService} from './core/authentication/authentication.service';
 import {ErrorInterceptor} from './core/interceptors/error-interceptor';
+import {environment} from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +26,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     StatusBar,

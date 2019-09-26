@@ -8,16 +8,20 @@
 </ion-header>
 
 <ion-content>
+<!--  If the page is being dragged down, the pages content is being refreshed -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+<!--  Search bar -->
   <ion-searchbar (ionChange)="searchDefinities()" [(ngModel)]="searchTerm"></ion-searchbar>
 
+<!--  List of definitions -->
   <ion-list *ngFor="let definitie of definities">
     <app-definitie-item [definitie]="definitie"></app-definitie-item>
   </ion-list>
 
+<!--  Floating action button to create a new definition -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addDefinitie()">
     <ion-fab-button color="light">
       <ion-icon name="add"></ion-icon>

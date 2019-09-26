@@ -46,8 +46,8 @@
 </ion-content>
 
 <ion-footer>
-  <div class="text-center d-flex">
-    <div (click)="dismissModal()" class="confirm-button ">Annuleren</div>
-    <div (click)="savePresentatie()" class="confirm-button primary">Opslaan</div>
+  <div class="action-buttons">
+    <ion-button size="default" color="light" (click)="dismissModal()">Annuleren</ion-button>
+    <ion-button size="default" color="primary" (click)="savePresentatie()">Opslaan</ion-button>
   </div>
 </ion-footer>

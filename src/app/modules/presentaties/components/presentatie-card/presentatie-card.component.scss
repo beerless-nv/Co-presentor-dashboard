@@ -19,6 +19,11 @@ ion-header {
   position: absolute;
   top: 0;
   right: 0;
+  margin: 4px;
+}
+
+.ios .button {
+  margin: 10px 6px;
 }
 
 .presentatie-card-title {

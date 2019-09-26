@@ -27,42 +27,68 @@ export class DefinitiesService {
     this.getDefinities();
   }
 
+  /**
+   * Get definitions and put them in a BehaviorSubject.
+   * If the BehaviorSubject is being updated, the update is sent to all its subscribers.
+   */
   getDefinities() {
     return this.http.get(this.urlDefinities).subscribe((definities: Array<any>) => {
 
       const definitiesArray = [];
 
+      // map through the definitions and get its synonyms
       definities.map(definitie => {
-        this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe((synoniemen: Array<any>) => {
-          definitie.synoniemen = synoniemen;
-          definitiesArray.push(definitie);
-          definitiesArray.sort((a, b) => {
-            return a.naam.localeCompare(b.naam);
+        this.synoniemenService.getSynoniemenByFK(0, definitie.ID)
+          .subscribe((synoniemen: Array<any>) => {
+            definitie.synoniemen = synoniemen;
+            definitiesArray.push(definitie);
+
+            // sort array on name
+            definitiesArray.sort((a, b) => {
+              return a.naam.localeCompare(b.naam);
+            });
           });
-        });
       });
 
+      // update definition observable
       return this.definities.next(definitiesArray);
 
     });
   }
 
-  getDefinitie(id) {
+  /**
+   * Requests a definition by id.
+   *
+   * @param id (number)
+   */
+  getDefinitie(id: number) {
     return this.http.get(this.urlDefinities + '/' + id).subscribe((definitie: any) => {
-      this.synoniemenService.getSynoniemenByFK(0, definitie.ID).subscribe((synoniemen: Array<any>) => {
-        definitie.synoniemen = synoniemen;
-        this.definitie.next(definitie);
-      });
+      this.synoniemenService.getSynoniemenByFK(0, definitie.ID)
+        .subscribe((synoniemen: Array<any>) => {
+          definitie.synoniemen = synoniemen;
+          this.definitie.next(definitie);
+        });
     });
   }
 
-  filterDefinities(value) {
+  /**
+   * Filters definition by name.
+   *
+   * @param value (string)
+   */
+  filterDefinities(value: string) {
     return this.definities.value.filter(definitie => {
       return definitie.naam.toLowerCase().indexOf(value.toLowerCase()) > -1;
     });
   }
 
-  createDefinitie(definitie) {
+  /**
+   * Creates a definition.
+   * The definitions text is being parsed to ssml.
+   *
+   * @param definitie (object)
+   */
+  createDefinitie(definitie: any) {
     definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
     return this.http.post(this.urlDefinities, definitie)
       .pipe(
@@ -72,7 +98,14 @@ export class DefinitiesService {
       );
   }
 
-  updateDefinitie(definitie, definitieId) {
+  /**
+   * Updates a definition.
+   * The definitions text is being parsed to ssml.
+   *
+   * @param definitie (object)
+   * @param definitieId (number)
+   */
+  updateDefinitie(definitie: any, definitieId: number) {
     definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
     return this.http.patch(this.urlDefinities + '/' + definitieId, definitie)
       .pipe(
@@ -82,21 +115,30 @@ export class DefinitiesService {
       );
   }
 
+  /**
+   * Updates the text of all the definitions if the break times are changed.
+   */
   async updateAllDefinitiesTekst() {
     const params = new HttpParams()
       .append('filter[where][tekst][neq]', '');
-    return this.http.get<Array<any>>(this.urlDefinities, {params}).toPromise().then(async definities => {
-      definities.map(definitie => {
-        definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
+    return this.http.get<Array<any>>(this.urlDefinities, {params})
+      .toPromise().then(async definities => {
+        definities.map(definitie => {
+          definitie.ssml = parseTextToSSML(definitie.tekst, this.ttsInstellingenService.getBreakTimes());
+        });
+
+        await this.http.patch(this.urlDefinities + '/bulk', definities).toPromise();
+
+        return 'done';
       });
-
-      await this.http.patch(this.urlDefinities + '/bulk', definities).toPromise();
-
-      return 'done';
-    });
   }
 
-  deleteDefinitie(definitieId) {
+  /**
+   * Deletes a definition
+   *
+   * @param definitieId (number)
+   */
+  deleteDefinitie(definitieId: number) {
     return this.http.delete(this.urlDefinities + '/' + definitieId)
       .pipe(
         tap(resp => {

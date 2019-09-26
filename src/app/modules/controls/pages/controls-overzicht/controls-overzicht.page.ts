@@ -8,7 +8,9 @@ import {ControlsService} from '../../shared/controls.service';
 })
 export class ControlsOverzichtPage implements OnInit {
 
-  constructor(private controlsService: ControlsService) { }
+  constructor(
+    private controlsService: ControlsService
+  ) { }
 
   ngOnInit() {
   }

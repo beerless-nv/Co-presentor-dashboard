@@ -23,3 +23,23 @@
     height: 100%;
   }
 }
+
+.action-buttons {
+  width: 100%;
+  text-align: center;
+  display: flex;
+
+  ion-button {
+    width: 50%;
+    margin: 0;
+    --border-width: 0;
+    --box-shadow: none;
+
+    &:first-child {
+      --border-radius: 0;
+    }
+    &:last-child {
+      --border-radius: 0;
+    }
+  }
+}

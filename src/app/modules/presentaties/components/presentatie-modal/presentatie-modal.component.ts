@@ -92,11 +92,9 @@ export class PresentatieModalComponent implements OnInit {
 
     // generate upload link for presentations
     this.presentatiesService.generateUploadLink(this.presentatie.ID).subscribe((upload: any) => {
-      // this.uploadUrl = 'https:' + upload.upload.url + '/' + this.filename;
       this.uploadUrl = 'https:' + upload.upload.url;
       this.processUrl = 'https:' + upload.url;
 
-      // if (this.file) {
       if (this.files.length > 0) {
         this.uploadPresentation().then(resp => {
           this.dismissModal();

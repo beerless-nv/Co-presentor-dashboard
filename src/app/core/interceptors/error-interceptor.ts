@@ -55,7 +55,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.presentAlert(errorMessage);
         } else if (err instanceof HttpErrorResponse) {
           try {
-            if (err.error.error.message === 'Error verifying token: invalid token') {
+            if (err.error.error.message === 'Error verifying token: invalid token' || err.error.error.statusCode === 401) {
               this.cookieService.delete('access_token');
               this.authenticationService.isLoggedIn();
             } else if (err.error.error.statusCode === 422) {

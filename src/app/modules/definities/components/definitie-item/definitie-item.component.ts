@@ -16,16 +16,32 @@ export class DefinitieItemComponent implements OnInit {
   speaking = false;
   audio;
 
-  constructor(private actionSheetController: ActionSheetController, private alertController: AlertController, private modalController: ModalController, private definitiesService: DefinitiesService, private googleTtsSttService: GoogleTtsSttService) {
-  }
+  constructor(
+    private actionSheetController: ActionSheetController,
+    private alertController: AlertController,
+    private modalController: ModalController,
+    private definitiesService: DefinitiesService,
+    private googleTtsSttService: GoogleTtsSttService
+  ) {}
 
   ngOnInit() {
+    // put name of synonyms in different variable to join names in frontend
     if (this.definitie.synoniemen) {
       this.synoniemen = this.definitie.synoniemen.map(synoniem => synoniem.naam);
     }
   }
 
-  async presentActionSheet(definitie) {
+  /**
+   * Presents action sheet for a specific definition.
+   * The action sheet contains multiple actions such as update and delete.
+   * When choosing update, the update modal opens up.
+   * When choosing delete, a confirm message is shown and depending on the users action
+   * the DELETE method is triggered or the delete action is cancelled.
+   * When choosing cancel, the modal closes.
+   *
+   * @param definitie (object)
+   */
+  async presentActionSheet(definitie: any) {
     const actionSheet = await this.actionSheetController.create({
       header: definitie.naam,
       buttons: [{
@@ -52,7 +68,14 @@ export class DefinitieItemComponent implements OnInit {
     await actionSheet.present();
   }
 
-  async deleteDefinitieConfirm(id) {
+  /**
+   * Presents a confirm message before calling DELETE method on this definition.
+   * When choosing cancel, the alert closes.
+   * When chosing delete, the DELETE method is triggered and thereafter the modal closes.
+   *
+   * @param id (number)
+   */
+  async deleteDefinitieConfirm(id: number) {
     const alert = await this.alertController.create({
       header: 'Verwijderen',
       message: 'Weet je zeker dat je deze definitie wilt <strong>verwijderen</strong>?',
@@ -78,7 +101,14 @@ export class DefinitieItemComponent implements OnInit {
     await alert.present();
   }
 
-  async presentUpdateDefinitieModal(title, definitie) {
+  /**
+   * Presents the update definition modal.
+   * The definitions title and definition are sent to the modal.
+   *
+   * @param title (string)
+   * @param definitie (number)
+   */
+  async presentUpdateDefinitieModal(title: string, definitie: string) {
     const modal = await this.modalController.create({
       component: UpdateDefinitieComponent,
       componentProps: {
@@ -89,6 +119,11 @@ export class DefinitieItemComponent implements OnInit {
     return await modal.present();
   }
 
+  /**
+   * Depending on the state of the speaking variable two things can happen:
+   * 1. if speaking = true, the audio file is being stopped.
+   * 2. if speaking = false, the audio file is being started.
+   */
   tts() {
     if (this.speaking) {
       this.stopAudio();
@@ -97,6 +132,10 @@ export class DefinitieItemComponent implements OnInit {
     }
   }
 
+  /**
+   * The audio file is being started by creating a text to speech object and sending it to
+   * the TTS API from Google.
+   */
   playAudio() {
     this.speaking = true;
 
@@ -116,18 +155,25 @@ export class DefinitieItemComponent implements OnInit {
     };
 
     this.googleTtsSttService.tts(ttsObject).subscribe((mp3: any) => {
+      // create new Audio object
       this.audio = new Audio('data:audio/mp3;base64,' + mp3.audioContent);
 
       this.audio.play();
+
+      // if the audio is over, the speaking object is set to false
       this.audio.onended = () => {
         this.speaking = false;
       };
     });
   }
 
+  /**
+   * The audio file is being stopped.
+   */
   stopAudio() {
     this.speaking = false;
 
+    // to stop the audio from playing, the audio file is paused and the currentTime is being reset.
     this.audio.pause();
     this.audio.currentTime = 0;
   }

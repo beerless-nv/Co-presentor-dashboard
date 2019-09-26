@@ -20,13 +20,16 @@
   </form>
 
   <div class="mt-4">
+
+<!--    Loading synonyms CRUD table -->
     <app-crud-synoniem [synoniemen]="synoniemen"></app-crud-synoniem>
   </div>
 </ion-content>
 
+<!--Action buttons -->
 <ion-footer>
-  <div class="text-center d-flex">
-    <div (click)="dismissModal()" class="confirm-button ">Annuleren</div>
-    <div (click)="saveDefinitie()" class="confirm-button primary">Opslaan</div>
+  <div class="action-buttons">
+    <ion-button size="default" color="light" (click)="dismissModal()">Annuleren</ion-button>
+    <ion-button size="default" color="primary" (click)="saveDefinitie()">Opslaan</ion-button>
   </div>
 </ion-footer>
